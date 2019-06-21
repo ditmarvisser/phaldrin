@@ -1,0 +1,20 @@
+.node {
+	stroke: #000000;
+	fill: #ffffff;
+}
+
+.nodeActive {
+	fill: #0000ff;
+}
+
+.road {
+	fill: none;
+	stroke: #ffffff;
+	stroke-width: 5;
+}
+
+.roadActive {
+	fill: none;
+	stroke: #0000ff;
+	stroke-width: 5;
+}

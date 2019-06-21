@@ -1,0 +1,233 @@
+{
+	"nodes": [
+		{
+			"nodeID": 0,
+			"name": "Tabula Rasa",
+			"coordinates": [251.3, 151.3],
+			"connections": [{ "roadID": 0, "nodeID": 1 }]
+		},
+		{
+			"nodeID": 1,
+			"name": null,
+			"coordinates": [391.7, 233],
+			"connections": [
+				{ "roadID": 0, "nodeID": 0 },
+				{ "roadID": 1, "nodeID": 2 },
+				{ "roadID": 2, "nodeID": 2 }
+			]
+		},
+		{
+			"nodeID": 2,
+			"name": "Fort Nog",
+			"coordinates": [610.3, 355.3],
+			"connections": [
+				{ "roadID": 1, "nodeID": 1 },
+				{ "roadID": 2, "nodeID": 1 },
+				{ "roadID": 3, "nodeID": 3 },
+				{ "roadID": 9, "nodeID": 13 }
+			]
+		},
+		{
+			"nodeID": 3,
+			"name": null,
+			"coordinates": [574.3, 402],
+			"connections": [
+				{ "roadID": 3, "nodeID": 2 },
+				{ "roadID": 4, "nodeID": 4 },
+				{ "roadID": 8, "nodeID": 9 }
+			]
+		},
+		{
+			"nodeID": 4,
+			"name": "Aequor",
+			"coordinates": [374.7, 494],
+			"connections": [
+				{ "roadID": 4, "nodeID": 3 },
+				{ "roadID": 5, "nodeID": 5 }
+			]
+		},
+		{
+			"nodeID": 5,
+			"name": null,
+			"coordinates": [420, 622],
+			"connections": [
+				{ "roadID": 5, "nodeID": 4 },
+				{ "roadID": 6, "nodeID": 7 },
+				{ "roadID": 7, "nodeID": 6 }
+			]
+		},
+		{
+			"nodeID": 6,
+			"name": "Graymoor",
+			"coordinates": [509.2, 656],
+			"connections": [
+				{ "roadID": 7, "nodeID": 5 },
+				{ "roadID": 26, "nodeID": 8 }
+			]
+		},
+		{
+			"nodeID": 7,
+			"name": "Lake of Pearls",
+			"coordinates": [360.7, 847],
+			"connections": [{ "roadID": 6, "nodeID": 5 }]
+		},
+		{
+			"nodeID": 8,
+			"name": "Southwood",
+			"coordinates": [864.3, 769.7],
+			"connections": [
+				{ "roadID": 25, "nodeID": 11 },
+				{ "roadID": 26, "nodeID": 6 },
+				{ "roadID": 27, "nodeID": 9 }
+			]
+		},
+		{
+			"nodeID": 9,
+			"name": "Thornbrush",
+			"coordinates": [716.3, 485.8],
+			"connections": [
+				{ "roadID": 8, "nodeID": 3 },
+				{ "roadID": 10, "nodeID": 10 },
+				{ "roadID": 27, "nodeID": 8 }
+			]
+		},
+		{
+			"nodeID": 10,
+			"name": null,
+			"coordinates": [793.5, 461.8],
+			"connections": [
+				{ "roadID": 10, "nodeID": 9 },
+				{ "roadID": 11, "nodeID": 13 },
+				{ "roadID": 22, "nodeID": 11 }
+			]
+		},
+		{
+			"nodeID": 11,
+			"name": "Fort Rom",
+			"coordinates": [1099.7, 632.3],
+			"connections": [
+				{ "roadID": 18, "nodeID": 18 },
+				{ "roadID": 22, "nodeID": 10 },
+				{ "roadID": 23, "nodeID": 12 },
+				{ "roadID": 25, "nodeID": 8 }
+			]
+		},
+		{
+			"nodeID": 12,
+			"name": "Iraebor",
+			"coordinates": [1221.3, 502.7],
+			"connections": [
+				{ "roadID": 19, "nodeID": 16 },
+				{ "roadID": 21, "nodeID": 14 },
+				{ "roadID": 23, "nodeID": 11 },
+				{ "roadID": 24, "nodeID": 19 }
+			]
+		},
+		{
+			"nodeID": 13,
+			"name": "Domari Tower",
+			"coordinates": [958, 306],
+			"connections": [
+				{ "roadID": 9, "nodeID": 2 },
+				{ "roadID": 11, "nodeID": 10 },
+				{ "roadID": 12, "nodeID": 15 },
+				{ "roadID": 20, "nodeID": 14 }
+			]
+		},
+		{
+			"nodeID": 14,
+			"name": "Ruins of Ishtal",
+			"coordinates": [1122, 391],
+			"connections": [
+				{ "roadID": 20, "nodeID": 13 },
+				{ "roadID": 21, "nodeID": 12 }
+			]
+		},
+		{
+			"nodeID": 15,
+			"name": "Pazazu's Bones",
+			"coordinates": [1081.7, 167.3],
+			"connections": [
+				{ "roadID": 12, "nodeID": 13 },
+				{ "roadID": 13, "nodeID": 16 }
+			]
+		},
+		{
+			"nodeID": 16,
+			"name": "Jikanteido",
+			"coordinates": [1449.7, 214.7],
+			"connections": [
+				{ "roadID": 13, "nodeID": 15 },
+				{ "roadID": 14, "nodeID": 17 },
+				{ "roadID": 19, "nodeID": 12 }
+			]
+		},
+		{
+			"nodeID": 17,
+			"name": "Dragoncrest",
+			"coordinates": [1552.3, 362],
+			"connections": [
+				{ "roadID": 14, "nodeID": 16 },
+				{ "roadID": 15, "nodeID": 20 }
+			]
+		},
+		{
+			"nodeID": 18,
+			"name": "Saithaul",
+			"coordinates": [1526.7, 840.3],
+			"connections": [
+				{ "roadID": 17, "nodeID": 19 },
+				{ "roadID": 18, "nodeID": 11 }
+			]
+		},
+		{
+			"nodeID": 19,
+			"name": null,
+			"coordinates": [1617, 687],
+			"connections": [
+				{ "roadID": 16, "nodeID": 20 },
+				{ "roadID": 17, "nodeID": 18 },
+				{ "roadID": 24, "nodeID": 12 }
+			]
+		},
+		{
+			"nodeID": 20,
+			"name": "Blackroot",
+			"coordinates": [1691.3, 636.8],
+			"connections": [
+				{ "roadID": 15, "nodeID": 17 },
+				{ "roadID": 16, "nodeID": 19 }
+			]
+		}
+	],
+	"roads": [
+		{ "roadID": 0, "roadLength": 167.1614532470703 },
+		{ "roadID": 1, "roadLength": 254.26148986816406 },
+		{ "roadID": 2, "roadLength": 288.77362060546875 },
+		{ "roadID": 3, "roadLength": 59.169368743896484 },
+		{ "roadID": 4, "roadLength": 222.19447326660156 },
+		{ "roadID": 5, "roadLength": 135.85400390625 },
+		{ "roadID": 6, "roadLength": 257.2942810058594 },
+		{ "roadID": 7, "roadLength": 97.09027862548828 },
+		{ "roadID": 8, "roadLength": 186.49127197265625 },
+		{ "roadID": 9, "roadLength": 375.30657958984375 },
+		{ "roadID": 10, "roadLength": 80.99093627929688 },
+		{ "roadID": 11, "roadLength": 230.24949645996094 },
+		{ "roadID": 12, "roadLength": 223.32684326171875 },
+		{ "roadID": 13, "roadLength": 424.3219909667969 },
+		{ "roadID": 14, "roadLength": 187.06358337402344 },
+		{ "roadID": 15, "roadLength": 310.4730224609375 },
+		{ "roadID": 16, "roadLength": 96.3646469116211 },
+		{ "roadID": 17, "roadLength": 330.4879455566406 },
+		{ "roadID": 18, "roadLength": 486.84613037109375 },
+		{ "roadID": 19, "roadLength": 427.6436767578125 },
+		{ "roadID": 20, "roadLength": 186.78176879882812 },
+		{ "roadID": 21, "roadLength": 151.23175048828125 },
+		{ "roadID": 22, "roadLength": 352.3404846191406 },
+		{ "roadID": 23, "roadLength": 179.66465759277344 },
+		{ "roadID": 24, "roadLength": 442.388427734375 },
+		{ "roadID": 25, "roadLength": 326.8852233886719 },
+		{ "roadID": 26, "roadLength": 419.1961975097656 },
+		{ "roadID": 27, "roadLength": 375.4708557128906 }
+	]
+}
