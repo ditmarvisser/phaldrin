@@ -7,7 +7,7 @@ import { elements } from "./views/base";
 const state = {};
 
 // When the user clicks the download button, start the download
-document.getElementById("download-btn").addEventListener("click", function() {
+document.getElementById("data-download").addEventListener("click", function() {
 	// Generate download of file with content
 	console.log(SVGConvert.convertSVG("svg"))
 	console.log(SVGConvert.convertSVG("json"))

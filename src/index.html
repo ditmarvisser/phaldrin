@@ -4,13 +4,18 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
 		<title>Travel Times Baby!</title>
 	</head>
 	<body>
-		<h1>Lets go</h1>
-		<p id="starting-point">Starting point</p>
-		<p id="end-point">End point</p>
-		<button type="button" id="download-btn">Download files</button>
-		<object id="mapSVG" type="image/svg+xml" data="img/data.svg"></object>
+		<div class="side-panel">
+			<p class="starting-point">Starting point</p>
+			<p class="end-point">End point</p>
+			<button type="button" class="btn" id="data-download">(super secret dev button)</button>
+		</div>
+		<div class="map">
+			<object id="mapSVG" type="image/svg+xml" data="img/data.svg"></object>
+		</div>
 	</body>
 </html>
