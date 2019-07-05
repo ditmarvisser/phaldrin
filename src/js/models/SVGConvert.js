@@ -1,9 +1,12 @@
 export const convertSVG = type => {
+	// Create an array of all nodes in the SVG
 	let svgNodesArray = Array.from(
 		document
 			.getElementById("mapSVG")
 			.contentDocument.getElementById("Nodes").children
 	);
+	
+	// Convert the svg elements to usable data
 	let tempDataNodes = [];
 	svgNodesArray.forEach((element, index) => {
 		const nodeElement = {
@@ -27,11 +30,13 @@ export const convertSVG = type => {
 		tempDataNodes.push(nodeElement);
 	});
 
-	// Interpret the roads in the svg
+	// Create an array of all roads in the SVG
 	const svgRoads = document
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("Roads");
 	let svgRoadsArray = Array.from(svgRoads.children);
+	
+	// Convert the svg elements to usable data
 	let tempDataRoads = [];
 	svgRoadsArray.forEach((element, index) => {
 		const roadPath = element.attributes.d.nodeValue;
@@ -54,7 +59,6 @@ export const convertSVG = type => {
 				element.coordinates[0] === roadPathBegin[0] &&
 				element.coordinates[1] === roadPathBegin[1]
 			) {
-				beginSucces++;
 				return element;
 			}
 		});
@@ -63,7 +67,6 @@ export const convertSVG = type => {
 				element.coordinates[0] === roadPathEnd[0] &&
 				element.coordinates[1] === roadPathEnd[1]
 			) {
-				endSucces++;
 				return element;
 			}
 		});
@@ -88,6 +91,7 @@ export const convertSVG = type => {
 		tempDataRoads.push(roadElement);
 	});
 
+	// Link the nodes to the roads
 	tempDataNodes.map(element => {
 		tempDataRoads.forEach(element2 => {
 			if (element2.roadStartNode === element.nodeID) {
@@ -108,6 +112,7 @@ export const convertSVG = type => {
 		});
 	});
 
+	// Create the text for the file download
 	if (type === "svg") {
 		return `
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
@@ -149,6 +154,7 @@ export const convertSVG = type => {
 };
 
 export const download = (filename, text) => {
+	// Make the button clickable
 	const element = document.createElement("a");
 	element.style.display = "none";
 
