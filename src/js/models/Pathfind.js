@@ -36,13 +36,9 @@ export default class pathfinder {
 			}
 
 			// Calculate the x and y distance between the current node and the target node, and then the heuristic cost
-			const xDistance = Math.abs(
-				node.coordinates[0] - this.targetNode.coordinates[0]
-			);
-			const yDistance = Math.abs(
-				node.coordinates[1] - this.targetNode.coordinates[1]
-			);
-			const heuristicCost = xDistance * xDistance + yDistance * yDistance;
+			const xDistance = node.coordinates[0] - this.targetNode.coordinates[0];
+			const yDistance = node.coordinates[1] - this.targetNode.coordinates[1];
+			const heuristicCost = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
 
 			const totalCost = traveledDistance + heuristicCost;
 
