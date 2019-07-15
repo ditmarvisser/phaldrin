@@ -1,4 +1,9 @@
+import WeightedGraph from "./WeightedGraph"
+
+
 export const convertSVG = type => {
+	let graph = new WeightedGraph();
+
 	// Create an array of all nodes in the SVG
 	let svgNodesArray = Array.from(
 		document
