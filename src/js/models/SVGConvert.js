@@ -1,21 +1,17 @@
-import WeightedGraph from "./WeightedGraph"
-
+import WeightedGraph from "./WeightedGraph";
 
 export const convertSVG = type => {
+	// Initiate the graph
 	let graph = new WeightedGraph();
 
-	// Create an array of all nodes in the SVG
-	let svgNodesArray = Array.from(
+	// Create an array of all nodes in the SVG and itterate over them, converting it to usable data
+	let nodeElement;
+	Array.from(
 		document
 			.getElementById("mapSVG")
 			.contentDocument.getElementById("Nodes").children
-	);
-	
-	// Convert the svg elements to usable data
-	let tempDataNodes = [];
-	svgNodesArray.forEach((element, index) => {
-		const nodeElement = {
-			nodeID: index,
+	).forEach((element, index) => {
+		nodeElement = {
 			name: element.attributes["data-name"]
 				? element.attributes["data-name"].textContent
 				: element.attributes.id
@@ -25,136 +21,121 @@ export const convertSVG = type => {
 				parseFloat(element.attributes.cx.value),
 				parseFloat(element.attributes.cy.value)
 			],
+
 			connections: []
 		};
-		nodeElement.svgPath = `<circle class="node" id="nodeID-${
-			nodeElement.nodeID
-		}" ${nodeElement.name ? `data-name="${nodeElement.name}"` : ""} cx="${
-			nodeElement.coordinates[0]
-		}" cy="${nodeElement.coordinates[1]}" r="10"/>`;
-		tempDataNodes.push(nodeElement);
+
+		nodeElement.svgPath = `<circle class="node" id="node-${index}" ${
+			nodeElement.name ? `data-name="${nodeElement.name}"` : ""
+		} cx="${nodeElement.coordinates[0]}" cy="${
+			nodeElement.coordinates[1]
+		}" r="10"/>`;
+
+		graph.addNode(index, nodeElement);
 	});
 
-	// Create an array of all roads in the SVG
-	const svgRoads = document
-		.getElementById("mapSVG")
-		.contentDocument.getElementById("Roads");
-	let svgRoadsArray = Array.from(svgRoads.children);
-	
-	// Convert the svg elements to usable data
-	let tempDataRoads = [];
-	svgRoadsArray.forEach((element, index) => {
-		const roadPath = element.attributes.d.nodeValue;
-		const roadPathSplit = roadPath.split(/(?=[A-Z])/gi);
-		const roadPathBegin = roadPathSplit[0]
+	// Create an array of all nodes in the SVG and itterate over them, converting it to usable data
+	let roadPath,
+		roadPathBegin,
+		roadPathEnd,
+		roadStartNode,
+		roadEndNode,
+		roadElement,
+		node;
+	Array.from(
+		document
+			.getElementById("mapSVG")
+			.contentDocument.getElementById("Roads").children
+	).forEach((road, index) => {
+		roadPath = road.attributes.d.nodeValue;
+		roadPathBegin = roadPath
+			.split(/(?=[A-Z])/gi)[0]
 			.split(/M|,/)
 			.splice(1)
 			.map(e => parseFloat(e));
-		const roadPathEnd = [
-			Math.round(
-				element.getPointAtLength(element.getTotalLength()).x * 10
-			) / 10,
-			Math.round(
-				element.getPointAtLength(element.getTotalLength()).y * 10
-			) / 10
+		roadPathEnd = [
+			Math.round(road.getPointAtLength(road.getTotalLength()).x * 10) /
+				10,
+			Math.round(road.getPointAtLength(road.getTotalLength()).y * 10) / 10
 		];
 
-		const roadStartNode = tempDataNodes.find(element => {
-			if (
-				element.coordinates[0] === roadPathBegin[0] &&
-				element.coordinates[1] === roadPathBegin[1]
-			) {
-				return element;
-			}
-		});
-		const roadEndNode = tempDataNodes.find(element => {
-			if (
-				element.coordinates[0] === roadPathEnd[0] &&
-				element.coordinates[1] === roadPathEnd[1]
-			) {
-				return element;
-			}
-		});
+		roadStartNode = undefined;
+		roadEndNode = undefined;
 
-		const roadElement = {
-			roadID: index,
-			name: element.attributes["data-name"]
-				? element.attributes["data-name"].textContent
-				: element.attributes.id
-				? element.attributes.id.textContent
+		for (node in graph.adjacencyList.nodes) {
+			if (
+				graph.adjacencyList.nodes[node].coordinates[0] ===
+					roadPathBegin[0] &&
+				graph.adjacencyList.nodes[node].coordinates[1] ===
+					roadPathBegin[1]
+			) {
+				roadStartNode = node;
+			}
+			if (
+				graph.adjacencyList.nodes[node].coordinates[0] ===
+					roadPathEnd[0] &&
+				graph.adjacencyList.nodes[node].coordinates[1] ===
+					roadPathEnd[1]
+			) {
+				roadEndNode = node;
+			}
+			if (roadStartNode && roadEndNode) {
+				break;
+			}
+		}
+
+		roadElement = {
+			name: road.attributes["data-name"]
+				? road.attributes["data-name"].textContent
+				: road.attributes.id
+				? road.attributes.id.textContent
 				: null,
-			roadLength: element.getTotalLength(),
-			roadStartNode: roadStartNode.nodeID,
-			roadEndNode: roadEndNode.nodeID,
+			roadLength: road.getTotalLength(),
+			roadStartNode: roadStartNode,
+			roadEndNode: roadEndNode,
 			roadPath
 		};
-		roadElement.svgPath = `<path class="road" id="roadID-${
-			roadElement.roadID
+		roadElement.svgPath = `<path class="road" id="road-${
+			index
 		}" ${roadElement.name ? `data-name="${roadElement.name}"` : ""} d="${
 			roadElement.roadPath
 		}"/>`;
-		tempDataRoads.push(roadElement);
+
+		graph.addEdge(roadElement, index);
+		// tempDataRoads.push(roadElement);
 	});
 
-	// Link the nodes to the roads
-	tempDataNodes.map(element => {
-		tempDataRoads.forEach(element2 => {
-			if (element2.roadStartNode === element.nodeID) {
-				element.connections.push({
-					roadID: element2.roadID,
-					nodeID: tempDataNodes.find(
-						element3 => element3.nodeID === element2.roadEndNode
-					).nodeID
-				});
-			} else if (element2.roadEndNode == element.nodeID) {
-				element.connections.push({
-					roadID: element2.roadID,
-					nodeID: tempDataNodes.find(
-						element3 => element3.nodeID === element2.roadStartNode
-					).nodeID
-				});
-			}
-		});
-	});
-
+	
 	// Create the text for the file download
 	if (type === "svg") {
+		let roadsSVG = []
+		let edge;
+		for (edge in graph.adjacencyList.edges) {
+			roadsSVG.push(graph.adjacencyList.edges[edge].svgPath)
+		}
+		let nodesSVG = []
+		let node2;
+		for (node2 in graph.adjacencyList.nodes) {
+			nodesSVG.push(graph.adjacencyList.nodes[node2].svgPath)
+		}
 		return `
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
-			
-			<svg xmlns="http://www.w3.org/2000/svg" 
+			<svg xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
 			<title>nildrohainmap_colour_elements</title>
 			<g id="Layer_1" data-name="Layer 1">
 			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
 			</g>
 			<g id="Roads">
-			${tempDataRoads.map(e => e.svgPath).join("")}
+			${roadsSVG.join('')}
 			</g>
 			<g id="Nodes">
-			${tempDataNodes.map(e => e.svgPath).join("")}
+			${nodesSVG.join('')}
 			</g>
 			</svg>
 			`;
 	} else if (type === "json") {
-		return `
-			{
-				"nodes": [${tempDataNodes.map(e => {
-					return JSON.stringify({
-						nodeID: e.nodeID,
-						name: e.name,
-						coordinates: e.coordinates,
-						connections: e.connections
-					});
-				})}],
-				"roads": [${tempDataRoads.map(e => {
-					return JSON.stringify({
-						roadID: e.roadID,
-						roadLength: e.roadLength
-					});
-				})}]
-			}
-			`;
+		return JSON.stringify(graph.adjacencyList);
 	}
 };
 
