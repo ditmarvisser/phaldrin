@@ -1,6 +1,6 @@
 import WeightedGraph from "./WeightedGraph";
 
-export const convertSVG = type => {
+export const convertSVG = () => {
 	// Initiate the graph
 	let graph = new WeightedGraph();
 
@@ -46,7 +46,8 @@ export const convertSVG = type => {
 		edgeStartNode,
 		edgeEndNode,
 		edge,
-		convertedNode;
+		convertedNode,
+		convertedEdge;
 	Array.from(
 		document
 			.getElementById("mapSVG")
@@ -121,19 +122,17 @@ export const convertSVG = type => {
 	});
 
 	// Create the text for the database files
-	if (type === "svg") {
-		// Create an array of all the node and edge svgPaths, then join them in a string.
-		let nodesSVGArray = [];
-		let node2;
-		for (node2 in graph.adjacencyList.nodes) {
-			nodesSVGArray.push(graph.adjacencyList.nodes[node2].svgPath);
-		}
-		let edgeSVGArray = [];
-		let edge;
-		for (edge in graph.adjacencyList.edges) {
-			edgeSVGArray.push(graph.adjacencyList.edges[edge].svgPath);
-		}
-		return `
+
+	// Create an array of all the node and edge svgPaths, then join them in a string.
+	let nodesSVGArray = [];
+	for (convertedNode in graph.adjacencyList.nodes) {
+		nodesSVGArray.push(graph.adjacencyList.nodes[convertedNode].svgPath);
+	}
+	let edgeSVGArray = [];
+	for (convertedEdge in graph.adjacencyList.edges) {
+		edgeSVGArray.push(graph.adjacencyList.edges[convertedEdge].svgPath);
+	}
+	console.log(`
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
 			<svg xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
@@ -148,30 +147,8 @@ export const convertSVG = type => {
 			${edgeSVGArray.join("")}
 			</g>
 			</svg>
-			`;
-	} else if (type === "json") {
-		// Return a stringified version of the graph
-		return JSON.stringify(graph.adjacencyList);
-	}
-};
+			`);
 
-export const download = (filename, text) => {
-	// Make the button clickable
-	const element = document.createElement("a");
-	element.style.display = "none";
-
-	// Define the data of the file using encodeURIComponent
-	element.setAttribute(
-		"href",
-		"data:text/plain;charset=utf-8," + encodeURIComponent(text)
-	);
-
-	// Add the download attribute of the hidden link
-	element.setAttribute("download", filename);
-	document.body.appendChild(element);
-
-	// Simulate click of the created link
-	element.click();
-
-	document.body.removeChild(element);
+	// Return a stringified version of the graph
+	console.log(JSON.stringify(graph.adjacencyList));
 };
