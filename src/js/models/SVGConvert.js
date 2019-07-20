@@ -5,13 +5,13 @@ export const convertSVG = type => {
 	let graph = new WeightedGraph();
 
 	// Create an array of all nodes in the SVG and itterate over them, converting it to usable data
-	let nodeElement;
+	let node;
 	Array.from(
 		document
 			.getElementById("mapSVG")
 			.contentDocument.getElementById("Nodes").children
 	).forEach((element, index) => {
-		nodeElement = {
+		node = {
 			name: element.attributes["data-name"]
 				? element.attributes["data-name"].textContent
 				: element.attributes.id
@@ -21,102 +21,99 @@ export const convertSVG = type => {
 				parseFloat(element.attributes.cx.value),
 				parseFloat(element.attributes.cy.value)
 			],
-
 			connections: []
 		};
 
-		nodeElement.svgPath = `<circle class="node" id="node-${index}" ${
-			nodeElement.name ? `data-name="${nodeElement.name}"` : ""
-		} cx="${nodeElement.coordinates[0]}" cy="${
-			nodeElement.coordinates[1]
-		}" r="10"/>`;
+		node.svgPath = `<circle class="node" id="node-${index}" ${
+			node.name ? `data-name="${node.name}"` : ""
+		} cx="${node.coordinates[0]}" cy="${node.coordinates[1]}" r="10"/>`;
 
-		graph.addNode(index, nodeElement);
+		graph.addNode(index, node);
 	});
 
-	// Create an array of all nodes in the SVG and itterate over them, converting it to usable data
-	let roadPath,
-		roadPathBegin,
-		roadPathEnd,
-		roadStartNode,
-		roadEndNode,
-		roadElement,
-		node;
+	// Create an array of all edges in the SVG and itterate over them, converting it to usable data
+	let edgePath,
+		edgeStartCoordinate,
+		edgeEndCoordinate,
+		edgeStartNode,
+		edgeEndNode,
+		edge,
+		convertedNode;
 	Array.from(
 		document
 			.getElementById("mapSVG")
-			.contentDocument.getElementById("Roads").children
-	).forEach((road, index) => {
-		roadPath = road.attributes.d.nodeValue;
-		roadPathBegin = roadPath
+			.contentDocument.getElementById("Edges").children
+	).forEach((element, index) => {
+		edgePath = element.attributes.d.nodeValue;
+		edgeStartCoordinate = edgePath
 			.split(/(?=[A-Z])/gi)[0]
 			.split(/M|,/)
 			.splice(1)
 			.map(e => parseFloat(e));
-		roadPathEnd = [
-			Math.round(road.getPointAtLength(road.getTotalLength()).x * 10) /
-				10,
-			Math.round(road.getPointAtLength(road.getTotalLength()).y * 10) / 10
+		edgeEndCoordinate = [
+			Math.round(
+				element.getPointAtLength(element.getTotalLength()).x * 10
+			) / 10,
+			Math.round(
+				element.getPointAtLength(element.getTotalLength()).y * 10
+			) / 10
 		];
 
-		roadStartNode = undefined;
-		roadEndNode = undefined;
+		edgeStartNode = undefined;
+		edgeEndNode = undefined;
 
-		for (node in graph.adjacencyList.nodes) {
+		for (convertedNode in graph.adjacencyList.nodes) {
 			if (
-				graph.adjacencyList.nodes[node].coordinates[0] ===
-					roadPathBegin[0] &&
-				graph.adjacencyList.nodes[node].coordinates[1] ===
-					roadPathBegin[1]
+				graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
+					edgeStartCoordinate[0] &&
+				graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
+					edgeStartCoordinate[1]
 			) {
-				roadStartNode = node;
+				edgeStartNode = convertedNode;
 			}
 			if (
-				graph.adjacencyList.nodes[node].coordinates[0] ===
-					roadPathEnd[0] &&
-				graph.adjacencyList.nodes[node].coordinates[1] ===
-					roadPathEnd[1]
+				graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
+					edgeEndCoordinate[0] &&
+				graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
+					edgeEndCoordinate[1]
 			) {
-				roadEndNode = node;
+				edgeEndNode = convertedNode;
 			}
-			if (roadStartNode && roadEndNode) {
+			if (edgeStartNode && edgeEndNode) {
 				break;
 			}
 		}
 
-		roadElement = {
-			name: road.attributes["data-name"]
-				? road.attributes["data-name"].textContent
-				: road.attributes.id
-				? road.attributes.id.textContent
+		edge = {
+			name: element.attributes["data-name"]
+				? element.attributes["data-name"].textContent
+				: element.attributes.id
+				? element.attributes.id.textContent
 				: null,
-			roadLength: road.getTotalLength(),
-			roadStartNode: roadStartNode,
-			roadEndNode: roadEndNode,
-			roadPath
+			edgeWeight: element.getTotalLength(),
+			edgeStartNode,
+			edgeEndNode,
+			edgePath
 		};
-		roadElement.svgPath = `<path class="road" id="road-${
-			index
-		}" ${roadElement.name ? `data-name="${roadElement.name}"` : ""} d="${
-			roadElement.roadPath
-		}"/>`;
+		edge.svgPath = `<path class="edge" id="edge-${index}" ${
+			edge.name ? `data-name="${edge.name}"` : ""
+		} d="${edge.edgePath}"/>`;
 
-		graph.addEdge(roadElement, index);
+		graph.addEdge(index, edge);
 		// tempDataRoads.push(roadElement);
 	});
 
-	
-	// Create the text for the file download
+	// Create the text for the database files
 	if (type === "svg") {
-		let roadsSVG = []
-		let edge;
-		for (edge in graph.adjacencyList.edges) {
-			roadsSVG.push(graph.adjacencyList.edges[edge].svgPath)
-		}
-		let nodesSVG = []
+		let nodesSVGArray = [];
 		let node2;
 		for (node2 in graph.adjacencyList.nodes) {
-			nodesSVG.push(graph.adjacencyList.nodes[node2].svgPath)
+			nodesSVGArray.push(graph.adjacencyList.nodes[node2].svgPath);
+		}
+		let roadsSVGArray = [];
+		let edge;
+		for (edge in graph.adjacencyList.edges) {
+			roadsSVGArray.push(graph.adjacencyList.edges[edge].svgPath);
 		}
 		return `
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
@@ -126,11 +123,11 @@ export const convertSVG = type => {
 			<g id="Layer_1" data-name="Layer 1">
 			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
 			</g>
-			<g id="Roads">
-			${roadsSVG.join('')}
-			</g>
 			<g id="Nodes">
-			${nodesSVG.join('')}
+			${nodesSVGArray.join("")}
+			</g>
+			<g id="Edges">
+			${roadsSVGArray.join("")}
 			</g>
 			</svg>
 			`;
