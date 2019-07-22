@@ -5,29 +5,6 @@
 	<g id="Layer_1" data-name="Layer 1">
 		<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
 	</g>
-	<g id="Nodes">
-		<circle class="node" id="node-0" data-name="Tabula Rasa" cx="251.3" cy="151.3" r="10"/>
-		<circle class="node" id="node-1" cx="391.7" cy="233" r="10"/>
-		<circle class="node" id="node-2" data-name="Fort Nog" cx="610.3" cy="355.3" r="10"/>
-		<circle class="node" id="node-3" cx="574.3" cy="402" r="10"/>
-		<circle class="node" id="node-4" data-name="Aequor" cx="374.7" cy="494" r="10"/>
-		<circle class="node" id="node-5" cx="420" cy="622" r="10"/>
-		<circle class="node" id="node-6" data-name="Graymoor" cx="509.2" cy="656" r="10"/>
-		<circle class="node" id="node-7" data-name="Lake of Pearls" cx="360.7" cy="847" r="10"/>
-		<circle class="node" id="node-8" data-name="Southwood" cx="864.3" cy="769.7" r="10"/>
-		<circle class="node" id="node-9" data-name="Thornbrush" cx="716.3" cy="485.8" r="10"/>
-		<circle class="node" id="node-10" cx="793.5" cy="461.8" r="10"/>
-		<circle class="node" id="node-11" data-name="Fort Rom" cx="1099.7" cy="632.3" r="10"/>
-		<circle class="node" id="node-12" data-name="Iraebor" cx="1221.3" cy="502.7" r="10"/>
-		<circle class="node" id="node-13" data-name="Domari Tower" cx="958" cy="306" r="10"/>
-		<circle class="node" id="node-14" data-name="Ruins of Ishtal" cx="1122" cy="391" r="10"/>
-		<circle class="node" id="node-15" data-name="Pazazu's Bones" cx="1081.7" cy="167.3" r="10"/>
-		<circle class="node" id="node-16" data-name="Jikanteido" cx="1449.7" cy="214.7" r="10"/>
-		<circle class="node" id="node-17" data-name="Dragoncrest" cx="1552.3" cy="362" r="10"/>
-		<circle class="node" id="node-18" data-name="Saithaul" cx="1526.7" cy="840.3" r="10"/>
-		<circle class="node" id="node-19" cx="1617" cy="687" r="10"/>
-		<circle class="node" id="node-20" data-name="Blackroot" cx="1691.3" cy="636.8" r="10"/>
-	</g>
 	<g id="Edges">
 		<path class="edge" id="edge-0" d="M610.3,355.3s39.2-18.6,54.1-37.8,42-36.4,69.2-37.4,73.8-2,120.5,13.2,58.2,15.8,78.1,15S958,306,958,306"/>
 		<path class="edge" id="edge-1" d="M1617,687s79.2,26.4,79.9,40.6,1.5,138.7-170.2,112.7"/>
@@ -57,5 +34,28 @@
 		<path class="edge" id="edge-25" d="M1099.7,632.3s-62,80-77.7,117S964.7,813,941,789s-76.7-19.3-76.7-19.3"/>
 		<path class="edge" id="edge-26" d="M509.2,656s43.5,7.3,75.5,61.3,57.6,73,85,39.7,57.6,7.3,78.3,4.7,116.3,8,116.3,8"/>
 		<path class="edge" id="edge-27" d="M716.3,485.8s60,38.2,66.4,77.2,40,70.7,55.6,65.7,28.4,0,25.7,9.3-16.7,30.3-10.7,42.3S873.7,692.7,864,707s-15,12-9,27.3,9.3,35.4,9.3,35.4"/>
+	</g>
+	<g id="Nodes">
+		<circle class="node" id="node-0" data-name="Tabula Rasa" cx="251.3" cy="151.3" r="10"/>
+		<circle class="node" id="node-1" cx="391.7" cy="233" r="10"/>
+		<circle class="node" id="node-2" data-name="Fort Nog" cx="610.3" cy="355.3" r="10"/>
+		<circle class="node" id="node-3" cx="574.3" cy="402" r="10"/>
+		<circle class="node" id="node-4" data-name="Aequor" cx="374.7" cy="494" r="10"/>
+		<circle class="node" id="node-5" cx="420" cy="622" r="10"/>
+		<circle class="node" id="node-6" data-name="Graymoor" cx="509.2" cy="656" r="10"/>
+		<circle class="node" id="node-7" data-name="Lake of Pearls" cx="360.7" cy="847" r="10"/>
+		<circle class="node" id="node-8" data-name="Southwood" cx="864.3" cy="769.7" r="10"/>
+		<circle class="node" id="node-9" data-name="Thornbrush" cx="716.3" cy="485.8" r="10"/>
+		<circle class="node" id="node-10" cx="793.5" cy="461.8" r="10"/>
+		<circle class="node" id="node-11" data-name="Fort Rom" cx="1099.7" cy="632.3" r="10"/>
+		<circle class="node" id="node-12" data-name="Iraebor" cx="1221.3" cy="502.7" r="10"/>
+		<circle class="node" id="node-13" data-name="Domari Tower" cx="958" cy="306" r="10"/>
+		<circle class="node" id="node-14" data-name="Ruins of Ishtal" cx="1122" cy="391" r="10"/>
+		<circle class="node" id="node-15" data-name="Pazazu's Bones" cx="1081.7" cy="167.3" r="10"/>
+		<circle class="node" id="node-16" data-name="Jikanteido" cx="1449.7" cy="214.7" r="10"/>
+		<circle class="node" id="node-17" data-name="Dragoncrest" cx="1552.3" cy="362" r="10"/>
+		<circle class="node" id="node-18" data-name="Saithaul" cx="1526.7" cy="840.3" r="10"/>
+		<circle class="node" id="node-19" cx="1617" cy="687" r="10"/>
+		<circle class="node" id="node-20" data-name="Blackroot" cx="1691.3" cy="636.8" r="10"/>
 	</g>
 </svg>

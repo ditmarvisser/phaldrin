@@ -123,7 +123,7 @@ export const convertSVG = () => {
 
 	// Create the text for the database files
 
-	// Create an array of all the node and edge svgPaths, then join them in a string.
+	// Create an array of all the node and edge svgPaths, join them in a string, and log the string
 	let nodesSVGArray = [];
 	for (convertedNode in graph.adjacencyList.nodes) {
 		nodesSVGArray.push(graph.adjacencyList.nodes[convertedNode].svgPath);
@@ -149,6 +149,6 @@ export const convertSVG = () => {
 			</svg>
 			`);
 
-	// Return a stringified version of the graph
+	// Log a stringified version of the graph
 	console.log(JSON.stringify(graph.adjacencyList));
 };
