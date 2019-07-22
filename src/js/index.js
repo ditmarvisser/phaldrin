@@ -1,4 +1,3 @@
-import data from "./models/data";
 import Pathfind from "./models/Pathfind";
 import * as pathfindView from "./views/pathfindView";
 import * as SVGConvert from "./models/SVGConvert";

@@ -1,5 +1,3 @@
-import { elements } from "./base";
-
 export const displayActiveNode = node => {
 	node.path[0].classList.toggle("nodeActive");
 };
