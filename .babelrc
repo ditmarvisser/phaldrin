@@ -4,8 +4,9 @@
 			"@babel/env",
 			{
 				"targets": {
-					"browsers": ["last 5 versions", "ie >= 8"]
-				}
+					"browsers": ["defaults"]
+				},
+				"useBuiltIns": "usage"
 			}
 		]
 	]
