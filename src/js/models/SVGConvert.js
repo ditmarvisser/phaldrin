@@ -9,7 +9,7 @@ export const convertSVG = () => {
 	Array.from(
 		document
 			.getElementById("mapSVG")
-			.contentDocument.getElementById("Nodes").children
+			.contentDocument.getElementById("nodes").children
 	).forEach((element, index) => {
 		// Initiate the node object
 		node = {
@@ -47,78 +47,90 @@ export const convertSVG = () => {
 		edgeEndNode,
 		edge,
 		convertedNode,
-		convertedEdge;
+		convertedEdge,
+		edgeType,
+		index = 0;
+
 	Array.from(
 		document
 			.getElementById("mapSVG")
-			.contentDocument.getElementById("Edges").children
-	).forEach((element, index) => {
-		// The d attribute of the edge
-		edgePath = element.attributes.d.nodeValue;
+			.contentDocument.getElementById("edges").children
+	).forEach(e => {
+		edgeType = e.id;
+		console.log(edgeType);
 
-		// Get the starting coordinate by splicing the first instruction from the edgePath
-		edgeStartCoordinate = edgePath
-			.split(/(?=[A-Z])/gi)[0]
-			.split(/M|,/)
-			.splice(1)
-			.map(e => parseFloat(e));
+		Array.from(e.children).forEach(element => {
+			// The d attribute of the edge
+			edgePath = element.attributes.d.nodeValue;
 
-		// Get the end coordinate with getPointAtLength of the total length
-		edgeEndCoordinate = [
-			Math.round(
-				element.getPointAtLength(element.getTotalLength()).x * 10
-			) / 10,
-			Math.round(
-				element.getPointAtLength(element.getTotalLength()).y * 10
-			) / 10
-		];
+			// Get the starting coordinate by splicing the first instruction from the edgePath
+			edgeStartCoordinate = edgePath
+				.split(/(?=[A-Z])/gi)[0]
+				.split(/M|,/)
+				.splice(1)
+				.map(e => parseFloat(e));
 
-		// Get the start and end node by comparing the coordinates
-		edgeStartNode = undefined;
-		edgeEndNode = undefined;
+			// Get the end coordinate with getPointAtLength of the total length
+			edgeEndCoordinate = [
+				Math.round(
+					element.getPointAtLength(element.getTotalLength()).x * 10
+				) / 10,
+				Math.round(
+					element.getPointAtLength(element.getTotalLength()).y * 10
+				) / 10
+			];
 
-		for (convertedNode in graph.adjacencyList.nodes) {
-			if (
-				graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
-					edgeStartCoordinate[0] &&
-				graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
-					edgeStartCoordinate[1]
-			) {
-				edgeStartNode = convertedNode;
+			// Get the start and end node by comparing the coordinates
+			edgeStartNode = undefined;
+			edgeEndNode = undefined;
+
+			for (convertedNode in graph.adjacencyList.nodes) {
+				if (
+					graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
+						edgeStartCoordinate[0] &&
+					graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
+						edgeStartCoordinate[1]
+				) {
+					edgeStartNode = convertedNode;
+				}
+				if (
+					graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
+						edgeEndCoordinate[0] &&
+					graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
+						edgeEndCoordinate[1]
+				) {
+					edgeEndNode = convertedNode;
+				}
+				if (edgeStartNode && edgeEndNode) {
+					break;
+				}
 			}
-			if (
-				graph.adjacencyList.nodes[convertedNode].coordinates[0] ===
-					edgeEndCoordinate[0] &&
-				graph.adjacencyList.nodes[convertedNode].coordinates[1] ===
-					edgeEndCoordinate[1]
-			) {
-				edgeEndNode = convertedNode;
-			}
-			if (edgeStartNode && edgeEndNode) {
-				break;
-			}
-		}
 
-		// Initiate the edge object
-		edge = {
-			name: element.attributes["data-name"]
-				? element.attributes["data-name"].textContent
-				: element.attributes.id
-				? element.attributes.id.textContent
-				: null,
-			edgeWeight: element.getTotalLength(),
-			edgeStartNode,
-			edgeEndNode,
-			edgePath
-		};
+			// Initiate the edge object
+			edge = {
+				name: element.attributes["data-name"]
+					? element.attributes["data-name"].textContent
+					: element.attributes.id
+					? element.attributes.id.textContent
+					: null,
+				edgeWeight: element.getTotalLength(),
+				edgeStartNode,
+				edgeEndNode,
+				edgePath,
+				edgeType
+			};
 
-		// Construct the string that will be entered in the svg
-		edge.svgPath = `<path class="edge" id="edge-${index}" ${
-			edge.name ? `data-name="${edge.name}"` : ""
-		} d="${edge.edgePath}"/>`;
+			console.log(edgeType);
 
-		// Add the edge to the graph
-		graph.addEdge(index, edge);
+			// Construct the string that will be entered in the svg
+			edge.svgPath = `<path class="edge ${edgeType}" id="edge-${index}" ${
+				edge.name ? `data-name="${edge.name}"` : ""
+			} d="${edge.edgePath}"/>`;
+
+			// Add the edge to the graph
+			graph.addEdge(index, edge);
+			index++;
+		});
 	});
 
 	// Create the text for the database files
@@ -140,11 +152,11 @@ export const convertSVG = () => {
 			<g id="Layer_1" data-name="Layer 1">
 			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
 			</g>
-			<g id="Nodes">
-			${nodesSVGArray.join("")}
-			</g>
 			<g id="Edges">
 			${edgeSVGArray.join("")}
+			</g>
+			<g id="Nodes">
+			${nodesSVGArray.join("")}
 			</g>
 			</svg>
 			`);

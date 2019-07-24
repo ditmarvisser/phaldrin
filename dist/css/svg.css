@@ -13,6 +13,11 @@
 	stroke-width: 5;
 }
 
+.badland {
+	stroke: red;
+	stroke-dasharray: 5;
+}
+
 .edgeActive {
 	fill: none;
 	stroke: #0000ff;

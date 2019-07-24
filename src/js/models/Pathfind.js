@@ -47,30 +47,38 @@ export default class pathfinder {
 					let nextNode =
 						data.nodes[topPriorityNode].connections[neighbor];
 
-					//calculate new distance to neighboring node
-					let coordinates = data.nodes[nextNode.node].coordinates;
-					let targetCoordinates = data.nodes[targetNode].coordinates;
-					let xDistance = coordinates[0] - targetCoordinates[0];
-					let yDistance = coordinates[1] - targetCoordinates[1];
-					let euclidianDistance = Math.sqrt(
-						xDistance * xDistance + yDistance * yDistance
-					);
-					let candidate =
-						distancesFromStartingNode[topPriorityNode] +
-						data.edges[nextNode.edge].edgeWeight +
-						euclidianDistance;
-					let nextNeighbor = nextNode.node;
+					if (
+						document.getElementById("badlands-checkbox").checked ||
+						data.edges[nextNode.edge].edgeType != "badland"
+					) {
+						//calculate new distance to neighboring node
+						let coordinates = data.nodes[nextNode.node].coordinates;
+						let targetCoordinates =
+							data.nodes[targetNode].coordinates;
+						let xDistance = coordinates[0] - targetCoordinates[0];
+						let yDistance = coordinates[1] - targetCoordinates[1];
+						let euclidianDistance = Math.sqrt(
+							xDistance * xDistance + yDistance * yDistance
+						);
+						let candidate =
+							distancesFromStartingNode[topPriorityNode] +
+							data.edges[nextNode.edge].edgeWeight +
+							euclidianDistance;
+						let nextNeighbor = nextNode.node;
 
-					if (candidate < distancesFromStartingNode[nextNeighbor]) {
-						//updating new topNode distance to neighbor
-						distancesFromStartingNode[nextNeighbor] = candidate;
-						//updating shortest connection - How we got to neighbor
-						shortestConnection[nextNeighbor] = [
-							topPriorityNode,
-							nextNode.edge
-						];
-						//enqueue in priority queue with new priority
-						queue.enqueue(nextNeighbor, candidate);
+						if (
+							candidate < distancesFromStartingNode[nextNeighbor]
+						) {
+							//updating new topNode distance to neighbor
+							distancesFromStartingNode[nextNeighbor] = candidate;
+							//updating shortest connection - How we got to neighbor
+							shortestConnection[nextNeighbor] = [
+								topPriorityNode,
+								nextNode.edge
+							];
+							//enqueue in priority queue with new priority
+							queue.enqueue(nextNeighbor, candidate);
+						}
 					}
 				}
 			}
