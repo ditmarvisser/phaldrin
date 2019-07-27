@@ -9,7 +9,7 @@ export const mapTransform = () => {
 		// We save the original values from the viewBox
 		viewBox = svg.viewBox.baseVal;
 		console.log(viewBox);
-		
+
 		// Calculate the ratio based on the viewBox width and the SVG width
 		reportSize();
 
@@ -41,7 +41,7 @@ function getPointFromEvent(event) {
 		point.y = event.clientY;
 	}
 
-	var invertedSVGMatrix = svg.getScreenCTM().inverse();	
+	var invertedSVGMatrix = svg.getScreenCTM().inverse();
 
 	return point.matrixTransform(invertedSVGMatrix);
 }
@@ -88,17 +88,19 @@ const onPointerUp = () => {
 };
 
 // Function called by the event listeners when user starts scrolling
-const onScroll = (event) => {
+const onScroll = event => {
 	pointerOrigin = getPointFromEvent(event);
 	if (event.deltaY) {
 		if (event.deltaY === 100) {
+			viewBox.x -= (pointerOrigin.x - viewBox.x) * 0.1;
+			viewBox.y -= (pointerOrigin.y - viewBox.y) * 0.1;
 			viewBox.width *= 1.1;
 			viewBox.height *= 1.1;
-		} else if (event.deltaY === -100){
+		} else if (event.deltaY === -100) {
+			viewBox.x += (pointerOrigin.x - viewBox.x) / 1.1 / 10;
+			viewBox.y += (pointerOrigin.y - viewBox.y) / 1.1 / 10;
 			viewBox.width /= 1.1;
 			viewBox.height /= 1.1;
 		}
-		console.log(viewBox);
-		
 	}
-}
+};
