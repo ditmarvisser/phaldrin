@@ -8,6 +8,8 @@ export const mapTransform = () => {
 
 		// We save the original values from the viewBox
 		viewBox = svg.viewBox.baseVal;
+		console.log(viewBox);
+		
 		// Calculate the ratio based on the viewBox width and the SVG width
 		reportSize();
 
@@ -15,6 +17,7 @@ export const mapTransform = () => {
 		svg.addEventListener("pointerup", onPointerUp); // Releasing the pointer
 		svg.addEventListener("pointerleave", onPointerUp); // Pointer gets out of the SVG area
 		svg.addEventListener("pointermove", onPointerMove); // Pointer is moving
+		svg.addEventListener("wheel", onScroll);
 	};
 };
 
@@ -38,7 +41,7 @@ function getPointFromEvent(event) {
 		point.y = event.clientY;
 	}
 
-	var invertedSVGMatrix = svg.getScreenCTM().inverse();
+	var invertedSVGMatrix = svg.getScreenCTM().inverse();	
 
 	return point.matrixTransform(invertedSVGMatrix);
 }
@@ -78,7 +81,24 @@ const onPointerMove = event => {
 	viewBox.y -= pointerPosition.y - pointerOrigin.y;
 };
 
+// Function called by the event listeners when user stops pressing/touching
 const onPointerUp = () => {
 	// The pointer is no longer considered as down
 	isPointerDown = false;
 };
+
+// Function called by the event listeners when user starts scrolling
+const onScroll = (event) => {
+	pointerOrigin = getPointFromEvent(event);
+	if (event.deltaY) {
+		if (event.deltaY === 100) {
+			viewBox.width *= 1.1;
+			viewBox.height *= 1.1;
+		} else if (event.deltaY === -100){
+			viewBox.width /= 1.1;
+			viewBox.height /= 1.1;
+		}
+		console.log(viewBox);
+		
+	}
+}
