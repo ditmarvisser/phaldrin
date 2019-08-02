@@ -1,4 +1,4 @@
-let svg, widthOutput, heightOutput, viewBox;
+let svg, viewBox;
 
 export const mapTransform = () => {
 	window.onload = function() {
@@ -10,23 +10,12 @@ export const mapTransform = () => {
 		viewBox = svg.viewBox.baseVal;
 		console.log(viewBox);
 
-		// Calculate the ratio based on the viewBox width and the SVG width
-		reportSize();
-
 		svg.addEventListener("pointerdown", onPointerDown); // Pointer is pressed
 		svg.addEventListener("pointerup", onPointerUp); // Releasing the pointer
 		svg.addEventListener("pointerleave", onPointerUp); // Pointer gets out of the SVG area
 		svg.addEventListener("pointermove", onPointerMove); // Pointer is moving
 		svg.addEventListener("wheel", onScroll);
 	};
-};
-
-export const reportSize = () => {
-	widthOutput = window.innerWidth - 400;
-	heightOutput = window.innerHeight;
-	// console.log(widthOutput, heightOutput);
-	// svg.setAttribute("width", widthOutput);
-	// svg.setAttribute("height", heightOutput);
 };
 
 // This function returns an object with X & Y values from the pointer event
