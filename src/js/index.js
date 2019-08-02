@@ -17,7 +17,7 @@ document.getElementById("data-download").addEventListener("click", function() {
 let pathfinderNodes = [];
 let svg;
 
-const controlPathfind = async selectedNode => {
+export const controlPathfind = async selectedNode => {
 	pathfinderNodes.push(
 		parseInt(selectedNode.path[0].attributes.id.nodeValue.substring(5))
 	);

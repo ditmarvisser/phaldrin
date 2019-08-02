@@ -1,3 +1,5 @@
+import * as controlPathfind from "../index";
+
 let svg, viewBox;
 
 export const mapTransform = () => {
@@ -37,6 +39,7 @@ function getPointFromEvent(event) {
 
 // This variable will be used later for move events to check if pointer is down or not
 let isPointerDown = false;
+let hasMoved = false;
 
 // This variable will contain the original coordinates when the user start pressing the mouse or touching the screen
 let pointerOrigin = {
@@ -46,6 +49,7 @@ let pointerOrigin = {
 
 // Function called by the event listeners when user start pressing/touching
 const onPointerDown = event => {
+	// controlPathfind.controlPathfind();
 	isPointerDown = true; // We set the pointer as down
 
 	// We get the pointer position on click/touchdown so we can get the value once the user starts to drag
@@ -61,6 +65,7 @@ const onPointerMove = event => {
 	// This prevent user to do a selection on the page
 	event.preventDefault();
 
+	hasMoved = true;
 	// Get the pointer position as an SVG Point
 	var pointerPosition = getPointFromEvent(event);
 
@@ -71,9 +76,13 @@ const onPointerMove = event => {
 };
 
 // Function called by the event listeners when user stops pressing/touching
-const onPointerUp = () => {
+const onPointerUp = event => {
+	if (!hasMoved && event.path[1].attributes.id.nodeValue === "Nodes") {
+		controlPathfind.controlPathfind(event)
+	}
 	// The pointer is no longer considered as down
 	isPointerDown = false;
+	hasMoved = false;
 };
 
 // Function called by the event listeners when user starts scrolling
