@@ -45,12 +45,4 @@ export const controlPathfind = async selectedNode => {
 	}
 };
 
-window.onload = function() {
-	svg = document.getElementById("mapSVG");
-	svg.contentDocument
-		.getElementById("Nodes")
-		.addEventListener("click", selectedNode => {
-			controlPathfind(selectedNode);
-		});
-};
 mapTransform.mapTransform();
