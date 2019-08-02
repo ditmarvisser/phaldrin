@@ -16,9 +16,14 @@ body {
 	padding: 20px;
 }
 
-.side-panel .btn {
+#data-download {
 	position: absolute;
-	left: 25px; 
+	left: 25px;
 	width: 350px;
-	bottom: 20px
+	bottom: 20px;
+}
+
+#mapSVG {
+	display: block;
+	background-color: #004E5F
 }
