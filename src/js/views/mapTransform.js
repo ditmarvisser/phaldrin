@@ -1,4 +1,4 @@
-import * as controlPathfind from "../index";
+import * as index from "../index";
 
 let svg, viewBox;
 
@@ -21,7 +21,7 @@ export const mapTransform = () => {
 };
 
 // This function returns an object with X & Y values from the pointer event
-function getPointFromEvent(event) {
+const getPointFromEvent = event => {
 	let point = svg.createSVGPoint();
 	// If event is triggered by a touch event, we get the position of the first finger
 	if (event.targetTouches) {
@@ -35,7 +35,7 @@ function getPointFromEvent(event) {
 	var invertedSVGMatrix = svg.getScreenCTM().inverse();
 
 	return point.matrixTransform(invertedSVGMatrix);
-}
+};
 
 // This variable will be used later for move events to check if pointer is down or not
 let isPointerDown = false;
@@ -65,7 +65,9 @@ const onPointerMove = event => {
 	// This prevent user to do a selection on the page
 	event.preventDefault();
 
+	// Prevent the pathfinding
 	hasMoved = true;
+
 	// Get the pointer position as an SVG Point
 	var pointerPosition = getPointFromEvent(event);
 
@@ -77,8 +79,9 @@ const onPointerMove = event => {
 
 // Function called by the event listeners when user stops pressing/touching
 const onPointerUp = event => {
+	// If the pointer hasn't moved, add the node to pathfinding
 	if (!hasMoved && event.path[1].attributes.id.nodeValue === "Nodes") {
-		controlPathfind.controlPathfind(event)
+		index.controlPathfind(event);
 	}
 	// The pointer is no longer considered as down
 	isPointerDown = false;
@@ -87,18 +90,19 @@ const onPointerUp = event => {
 
 // Function called by the event listeners when user starts scrolling
 const onScroll = event => {
+	// We get the pointer position on click/touchdown so we can get the value once the user starts to zoom
 	pointerOrigin = getPointFromEvent(event);
-	if (event.deltaY) {
-		if (event.deltaY === 100) {
-			viewBox.x -= (pointerOrigin.x - viewBox.x) * 0.1;
-			viewBox.y -= (pointerOrigin.y - viewBox.y) * 0.1;
-			viewBox.width *= 1.1;
-			viewBox.height *= 1.1;
-		} else if (event.deltaY === -100) {
-			viewBox.x += (pointerOrigin.x - viewBox.x) / 1.1 / 10;
-			viewBox.y += (pointerOrigin.y - viewBox.y) / 1.1 / 10;
-			viewBox.width /= 1.1;
-			viewBox.height /= 1.1;
-		}
+
+	// If scroll up --> zoom in, scroll down --> zoom out
+	if (event.deltaY === 100) {
+		viewBox.x -= (pointerOrigin.x - viewBox.x) * 0.1;
+		viewBox.y -= (pointerOrigin.y - viewBox.y) * 0.1;
+		viewBox.width *= 1.1;
+		viewBox.height *= 1.1;
+	} else if (event.deltaY === -100) {
+		viewBox.x += (pointerOrigin.x - viewBox.x) / 1.1 / 10;
+		viewBox.y += (pointerOrigin.y - viewBox.y) / 1.1 / 10;
+		viewBox.width /= 1.1;
+		viewBox.height /= 1.1;
 	}
 };

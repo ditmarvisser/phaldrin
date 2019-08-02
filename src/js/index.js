@@ -52,5 +52,5 @@ window.onload = function() {
 		.addEventListener("click", selectedNode => {
 			controlPathfind(selectedNode);
 		});
-	};
-	mapTransform.mapTransform();
+};
+mapTransform.mapTransform();
