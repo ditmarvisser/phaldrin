@@ -16,6 +16,10 @@ body {
 	padding: 20px;
 }
 
+.side-panel p {
+	margin: 10px;
+}
+
 #data-download {
 	position: absolute;
 	left: 25px;
@@ -25,5 +29,5 @@ body {
 
 #mapSVG {
 	display: block;
-	background-color: #004E5F
+	background-color: #004e5f;
 }
