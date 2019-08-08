@@ -1,8 +1,14 @@
 import data from "../models/data";
 
-export const displayActiveNode = node => {
+export const displayActiveNode = (node, position) => {
 	node.path[0].classList.toggle("nodeActive");
+	if (position === "start") {		
+		document.getElementById("starting-point-name").innerHTML = `${data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name}`
+	} else if (position === "target"){
+		document.getElementById("target-point-name").innerHTML = `${data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name}`
+	}
 };
+
 
 export const clearActiveNodes = () => {
 	const svgNodes = document
@@ -25,10 +31,10 @@ export const displayPath = completedPath => {
 
 	// console.log(data);
 
-	document.querySelector(".traveled-time-distance").innerHTML = `${Math.round(
+	document.getElementById("traveled-time-distance").innerHTML = `${Math.round(
 		traveledDistance / 6
 	)} miles (${Math.round((traveledDistance / 6) * 1.609)} kilometers)`;
-	document.querySelector(".traveled-time-time").innerHTML = `${Math.round(
+	document.getElementById("traveled-time-time").innerHTML = `${Math.round(
 		(traveledDistance / 6 / 24) * 10
 	) / 10} days`;
 };
