@@ -26,9 +26,9 @@ export const controlPathfind = async selectedNode => {
 		pathfindView.clearActiveNodes();
 		pathfindView.clearDisplayedPath();
 		// Display the chosen node on the page
-		pathfindView.displayActiveNode(selectedNode);
+		pathfindView.displayActiveNode(selectedNode, "start");
 	} else if (pathfinderNodes.length === 2) {
-		pathfindView.displayActiveNode(selectedNode);
+		pathfindView.displayActiveNode(selectedNode, "target");
 		// Create a new pathfind object
 		state.pathfind = new Pathfind();
 
