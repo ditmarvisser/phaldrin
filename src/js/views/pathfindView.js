@@ -2,13 +2,16 @@ import data from "../models/data";
 
 export const displayActiveNode = (node, position) => {
 	node.path[0].classList.toggle("nodeActive");
-	if (position === "start") {		
-		document.getElementById("starting-point-name").innerHTML = `${data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name}`
-	} else if (position === "target"){
-		document.getElementById("target-point-name").innerHTML = `${data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name}`
+	if (position === "start") {
+		document.getElementById("starting-point-name").innerHTML = `${
+			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
+		}`;
+	} else if (position === "target") {
+		document.getElementById("target-point-name").innerHTML = `${
+			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
+		}`;
 	}
 };
-
 
 export const clearActiveNodes = () => {
 	const svgNodes = document
@@ -17,6 +20,8 @@ export const clearActiveNodes = () => {
 	Array.prototype.forEach.call(svgNodes.children, function(e) {
 		e.classList.remove("nodeActive");
 	});
+	document.getElementById("starting-point-name").innerHTML = "...";
+	document.getElementById("target-point-name").innerHTML = "...";
 };
 
 export const displayPath = completedPath => {
@@ -46,4 +51,6 @@ export const clearDisplayedPath = () => {
 	Array.prototype.forEach.call(svgRoads.children, function(e) {
 		e.classList.remove("edgeActive");
 	});
+	document.getElementById("traveled-time-distance").innerHTML = "... miles";
+	document.getElementById("traveled-time-time").innerHTML = "... days";
 };
