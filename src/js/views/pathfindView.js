@@ -54,3 +54,16 @@ export const clearDisplayedPath = () => {
 	document.getElementById("traveled-time-distance").innerHTML = "... miles";
 	document.getElementById("traveled-time-time").innerHTML = "... days";
 };
+
+export const displayRestingSpots = (completedPath) => {
+	// Take the path and compute if the individual paths are reversed or not
+
+	// For each path,
+		// If the path is reversed add the resting spots in reverse
+		// add resting spots every x distance
+		// carrying over any residual distance
+}
+
+export const clearDisplayedRestingSpots = () => {
+	// Delete all resting spots
+}

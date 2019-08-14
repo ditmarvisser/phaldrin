@@ -25,6 +25,7 @@ export const controlPathfind = async selectedNode => {
 		// Clear the UI
 		pathfindView.clearActiveNodes();
 		pathfindView.clearDisplayedPath();
+		pathfindView.clearDisplayedRestingSpots();
 		// Display the chosen node on the page
 		pathfindView.displayActiveNode(selectedNode, "start");
 	} else if (pathfinderNodes.length === 2) {
@@ -32,14 +33,18 @@ export const controlPathfind = async selectedNode => {
 		// Create a new pathfind object
 		state.pathfind = new Pathfind();
 
-		// Calculate the shortest path
 		try {
+			// Calculate the shortest path
 			await state.pathfind.aStar(...pathfinderNodes);
 			// Display the path
 			pathfindView.displayPath(state.pathfind.traveledPath);
 		} catch (error) {
 			console.log(error);
 		}
+
+		// Display the resting spots
+		pathfindView.displayRestingSpots(state.pathfind.traveledPath);
+
 		// Clear the pathfinderNodes list
 		pathfinderNodes.length = 0;
 	}
