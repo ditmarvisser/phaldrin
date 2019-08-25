@@ -56,24 +56,50 @@ export const clearDisplayedPath = () => {
 };
 
 export const displayRestingSpots = (completedPath, startingNode) => {
+	const svg = document.getElementById("mapSVG").contentDocument;
+	let edge, edgeDirection, edgeWeight, traveledDistance, svgPoint, newElement;
 	let edgeStartingNode = startingNode;
-	let edgeDirection;
+	let residualWeight = 0;
 
 	// For each path,
 	completedPath.forEach(e => {
+		edge = data.edges[e[1]];
+		edgeWeight = edge.edgeWeight;
+		traveledDistance = 0 - residualWeight;
+
 		// Take the path and compute if the individual paths are reversed or not
-		if (data.edges[e[1]].edgeStartNode == edgeStartingNode) {
+		if (edge.edgeStartNode == edgeStartingNode) {
 			edgeDirection = "regular";
-			edgeStartingNode = data.edges[e[1]].edgeEndNode;
+			edgeStartingNode = edge.edgeEndNode;
 		} else {
 			edgeDirection = "reversed";
-			edgeStartingNode = data.edges[e[1]].edgeStartNode;
+			edgeStartingNode = edge.edgeStartNode;
 		}
-		// If the path is reversed add the resting spots in reverse
 
 		// add resting spots every x distance
-
+		while (edgeWeight - traveledDistance > 144) {
+			traveledDistance += 144;
+			if (edgeDirection === "regular") {
+				svgPoint = svg
+					.getElementById("Edges")
+					.children[e[1]].getPointAtLength(traveledDistance);
+			} else if (edgeDirection === "reversed") {
+				svgPoint = svg
+					.getElementById("Edges")
+					.children[e[1]].getPointAtLength(edgeWeight - traveledDistance);
+			}
+			newElement = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"circle"
+			);
+			newElement.setAttributeNS(null, "class", "restNode");
+			newElement.setAttributeNS(null, "cx", svgPoint.x);
+			newElement.setAttributeNS(null, "cy", svgPoint.y);
+			newElement.setAttributeNS(null, "r", 10);
+			svg.documentElement.appendChild(newElement);
+		}
 		// carrying over any residual distance
+		residualWeight = edgeWeight - traveledDistance;
 	});
 };
 

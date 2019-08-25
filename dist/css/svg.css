@@ -7,6 +7,11 @@
 	fill: #0000ff;
 }
 
+.restNode {
+	stroke: #000000;
+	fill: #00ff00;
+}
+
 .edge {
 	fill: none;
 	stroke: #ffffff;
