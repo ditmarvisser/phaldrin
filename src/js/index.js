@@ -43,7 +43,7 @@ export const controlPathfind = async selectedNode => {
 		}
 
 		// Display the resting spots
-		pathfindView.displayRestingSpots(state.pathfind.traveledPath);
+		pathfindView.displayRestingSpots(state.pathfind.traveledPath, pathfinderNodes[0]);
 
 		// Clear the pathfinderNodes list
 		pathfinderNodes.length = 0;

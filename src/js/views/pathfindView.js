@@ -55,15 +55,28 @@ export const clearDisplayedPath = () => {
 	document.getElementById("traveled-time-time").innerHTML = "... days";
 };
 
-export const displayRestingSpots = (completedPath) => {
-	// Take the path and compute if the individual paths are reversed or not
+export const displayRestingSpots = (completedPath, startingNode) => {
+	let edgeStartingNode = startingNode;
+	let edgeDirection;
 
 	// For each path,
+	completedPath.forEach(e => {
+		// Take the path and compute if the individual paths are reversed or not
+		if (data.edges[e[1]].edgeStartNode == edgeStartingNode) {
+			edgeDirection = "regular";
+			edgeStartingNode = data.edges[e[1]].edgeEndNode;
+		} else {
+			edgeDirection = "reversed";
+			edgeStartingNode = data.edges[e[1]].edgeStartNode;
+		}
 		// If the path is reversed add the resting spots in reverse
+
 		// add resting spots every x distance
+
 		// carrying over any residual distance
-}
+	});
+};
 
 export const clearDisplayedRestingSpots = () => {
 	// Delete all resting spots
-}
+};
