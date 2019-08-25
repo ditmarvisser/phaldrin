@@ -86,7 +86,9 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 			} else if (edgeDirection === "reversed") {
 				svgPoint = svg
 					.getElementById("Edges")
-					.children[e[1]].getPointAtLength(edgeWeight - traveledDistance);
+					.children[e[1]].getPointAtLength(
+						edgeWeight - traveledDistance
+					);
 			}
 			newElement = document.createElementNS(
 				"http://www.w3.org/2000/svg",
@@ -96,7 +98,9 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 			newElement.setAttributeNS(null, "cx", svgPoint.x);
 			newElement.setAttributeNS(null, "cy", svgPoint.y);
 			newElement.setAttributeNS(null, "r", 10);
-			svg.documentElement.appendChild(newElement);
+			svg.documentElement
+				.getElementById("RestNodes")
+				.appendChild(newElement);
 		}
 		// carrying over any residual distance
 		residualWeight = edgeWeight - traveledDistance;
@@ -105,4 +109,10 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 
 export const clearDisplayedRestingSpots = () => {
 	// Delete all resting spots
+	const svgRestNodes = document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById("RestNodes");
+	while (svgRestNodes.firstChild) {
+		svgRestNodes.removeChild(svgRestNodes.firstChild);
+	}
 };
