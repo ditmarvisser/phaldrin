@@ -34,7 +34,7 @@ export default class pathfinder {
 			// If the top priority node is the target node, build up a path to return
 			if (topPriorityNode == targetNode) {
 				while (shortestConnection[topPriorityNode][0]) {
-					this.traveledPath.push(shortestConnection[topPriorityNode]);
+					this.traveledPath.unshift(shortestConnection[topPriorityNode]);
 					topPriorityNode = shortestConnection[topPriorityNode][0];
 				}
 				break;
