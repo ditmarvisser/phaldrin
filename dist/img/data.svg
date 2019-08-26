@@ -58,4 +58,5 @@
 		<circle class="node" id="node-19" cx="1617" cy="687" r="10"/>
 		<circle class="node" id="node-20" data-name="Blackroot" cx="1691.3" cy="636.8" r="10"/>
 	</g>
+	<g id="RestNodes"></g>
 </svg>

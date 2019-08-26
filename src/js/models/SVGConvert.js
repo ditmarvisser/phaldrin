@@ -158,6 +158,7 @@ export const convertSVG = () => {
 			<g id="Nodes">
 			${nodesSVGArray.join("")}
 			</g>
+			<g id="RestNodes"></g>
 			</svg>
 			`);
 

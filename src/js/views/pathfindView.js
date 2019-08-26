@@ -54,3 +54,65 @@ export const clearDisplayedPath = () => {
 	document.getElementById("traveled-time-distance").innerHTML = "... miles";
 	document.getElementById("traveled-time-time").innerHTML = "... days";
 };
+
+export const displayRestingSpots = (completedPath, startingNode) => {
+	const svg = document.getElementById("mapSVG").contentDocument;
+	let edge, edgeDirection, edgeWeight, traveledDistance, svgPoint, newElement;
+	let edgeStartingNode = startingNode;
+	let residualWeight = 0;
+
+	// For each path,
+	completedPath.forEach(e => {
+		edge = data.edges[e[1]];
+		edgeWeight = edge.edgeWeight;
+		traveledDistance = 0 - residualWeight;
+
+		// Take the path and compute if the individual paths are reversed or not
+		if (edge.edgeStartNode == edgeStartingNode) {
+			edgeDirection = "regular";
+			edgeStartingNode = edge.edgeEndNode;
+		} else {
+			edgeDirection = "reversed";
+			edgeStartingNode = edge.edgeStartNode;
+		}
+
+		// add resting spots every x distance
+		while (edgeWeight - traveledDistance > 144) {
+			traveledDistance += 144;
+			if (edgeDirection === "regular") {
+				svgPoint = svg
+					.getElementById("Edges")
+					.children[e[1]].getPointAtLength(traveledDistance);
+			} else if (edgeDirection === "reversed") {
+				svgPoint = svg
+					.getElementById("Edges")
+					.children[e[1]].getPointAtLength(
+						edgeWeight - traveledDistance
+					);
+			}
+			newElement = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"circle"
+			);
+			newElement.setAttributeNS(null, "class", "restNode");
+			newElement.setAttributeNS(null, "cx", svgPoint.x);
+			newElement.setAttributeNS(null, "cy", svgPoint.y);
+			newElement.setAttributeNS(null, "r", 10);
+			svg.documentElement
+				.getElementById("RestNodes")
+				.appendChild(newElement);
+		}
+		// carrying over any residual distance
+		residualWeight = edgeWeight - traveledDistance;
+	});
+};
+
+export const clearDisplayedRestingSpots = () => {
+	// Delete all resting spots
+	const svgRestNodes = document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById("RestNodes");
+	while (svgRestNodes.firstChild) {
+		svgRestNodes.removeChild(svgRestNodes.firstChild);
+	}
+};
