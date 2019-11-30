@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 module.exports = {
     entry: ['@babel/polyfill', './src/js/index.js'],
     output: {
@@ -24,7 +25,14 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
-            }
+			},
+			{
+				test: /\.geojson$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'json-loader'
+				}
+			}
         ]
     }
 };
