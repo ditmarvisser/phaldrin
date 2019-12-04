@@ -1,4 +1,5 @@
 import data from "../models/data";
+import * as mapTransform from "./mapTransform"
 
 export const displayActiveNode = (node, position) => {
 	node.path[0].classList.toggle("nodeActive");
@@ -105,6 +106,7 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		// carrying over any residual distance
 		residualWeight = edgeWeight - traveledDistance;
 	});
+	mapTransform.scaleNodes()
 };
 
 export const clearDisplayedRestingSpots = () => {

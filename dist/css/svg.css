@@ -16,6 +16,7 @@
 	fill: none;
 	stroke: #ffffff;
 	stroke-width: 5;
+	vector-effect: non-scaling-stroke;
 }
 
 .badland {

@@ -17,6 +17,8 @@ export const mapTransform = () => {
 		svg.addEventListener("pointerleave", onPointerUp); // Pointer gets out of the SVG area
 		svg.addEventListener("pointermove", onPointerMove); // Pointer is moving
 		svg.addEventListener("wheel", onScroll);
+
+		scaleNodes()
 	};
 };
 
@@ -104,5 +106,23 @@ const onScroll = event => {
 		viewBox.y += (pointerOrigin.y - viewBox.y) / 1.1 / 10;
 		viewBox.width /= 1.1;
 		viewBox.height /= 1.1;
+	}
+	scaleNodes();
+};
+
+export const scaleNodes = () => {
+	for (const node of document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById("map-svg")
+		.getElementById("Nodes").children) {
+		node.setAttribute("r", viewBox.width / 100);
+		node.style.strokeWidth = viewBox.width / 1000;
+	}
+	for (const node of document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById("map-svg")
+		.getElementById("RestNodes").children) {
+		node.setAttribute("r", viewBox.width / 100);
+		node.style.strokeWidth = viewBox.width / 1000;
 	}
 };
