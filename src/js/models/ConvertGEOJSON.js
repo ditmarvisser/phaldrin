@@ -14,15 +14,14 @@ export const convertGEOJSON = () => {
 		}
 	});
 
-	// console.log(graph);
-	// console.log(Object.entries(graph.adjacencyList.nodes).length);
-
 	// Create an array of all the node and edge svgPaths, join them in a string, and log the string
-	let node, nodesSVGArray = [];
+	let node,
+		nodesSVGArray = [];
 	for (node in graph.adjacencyList.nodes) {
 		nodesSVGArray.push(graph.adjacencyList.nodes[node].nodeSVGString);
 	}
-	let edge, edgeSVGArray = [];
+	let edge,
+		edgeSVGArray = [];
 	for (edge in graph.adjacencyList.edges) {
 		edgeSVGArray.push(graph.adjacencyList.edges[edge].edgeSVGString);
 	}
@@ -31,8 +30,9 @@ export const convertGEOJSON = () => {
 			<svg xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="-120000 -200000 520000 300000" id="map-svg">
 			<title>nildrohainmap_colour_elements</title>
-			<g id="Layer_1" data-name="Layer 1">
-			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
+			<g id="Layer_1" data-name="Layer 1"> 
+			<image width="518953.8838352524224" height="291911.5596573294876" x="-116595.8971" y="-73593.4179" xlink:href="nildrohainmap_colour.jpg"/>
+			<image width="2013.66866685003446592" height="2128.23764973059489568" x="-50030.166193" y="64691.489913" xlink:href="aequor.png"/>
 			</g>
 			<g id="Edges">
 			${edgeSVGArray.join("")}
@@ -64,6 +64,20 @@ const parseLineString = feature => {
 	edgeEndCoordinate =
 		feature.geometry.coordinates[feature.geometry.coordinates.length - 1];
 
+	// Create the svg d string
+	SVGdPath = `M${feature.geometry.coordinates[0][0]},${feature.geometry
+		.coordinates[0][1] * -1}`;
+	for (let i = 1; i < feature.geometry.coordinates.length; i++) {
+		SVGdPath = SVGdPath.concat(
+			`L${feature.geometry.coordinates[i][0]},${feature.geometry
+				.coordinates[i][1] * -1}`
+		);
+	}
+
+	// Flip the y coordinate
+	edgeStartCoordinate[1] *= -1;
+	edgeEndCoordinate[1] *= -1;
+
 	// Get the start and end node by comparing the coordinates
 	edgeStartNode = createNodesFromLineString(edgeStartCoordinate);
 	edgeEndNode = createNodesFromLineString(edgeEndCoordinate);
@@ -90,12 +104,6 @@ const parseLineString = feature => {
 		edgeEndNode,
 		edgeType: feature.properties.edgeType
 	};
-
-	// Create the svg d string
-	SVGdPath = `M${feature.geometry.coordinates[0]}`;
-	for (let i = 1; i < feature.geometry.coordinates.length; i++) {
-		SVGdPath = SVGdPath.concat(`L${feature.geometry.coordinates[i]}`);
-	}
 
 	// Construct the string for the svg
 	edge.edgeSVGString = `<path class="edge ${edge.edgeType}" id="edge-${
