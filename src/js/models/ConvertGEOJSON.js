@@ -14,8 +14,38 @@ export const convertGEOJSON = () => {
 		}
 	});
 
-	console.log(graph);
-	console.log(Object.entries(graph.adjacencyList.nodes).length);
+	// console.log(graph);
+	// console.log(Object.entries(graph.adjacencyList.nodes).length);
+
+	// Create an array of all the node and edge svgPaths, join them in a string, and log the string
+	let node, nodesSVGArray = [];
+	for (node in graph.adjacencyList.nodes) {
+		nodesSVGArray.push(graph.adjacencyList.nodes[node].nodeSVGString);
+	}
+	let edge, edgeSVGArray = [];
+	for (edge in graph.adjacencyList.edges) {
+		edgeSVGArray.push(graph.adjacencyList.edges[edge].edgeSVGString);
+	}
+	console.log(`
+			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
+			<svg xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1920 1080" id="map-svg">
+			<title>nildrohainmap_colour_elements</title>
+			<g id="Layer_1" data-name="Layer 1">
+			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
+			</g>
+			<g id="Edges">
+			${edgeSVGArray.join("")}
+			</g>
+			<g id="Nodes">
+			${nodesSVGArray.join("")}
+			</g>
+			<g id="RestNodes"></g>
+			</svg>
+			`);
+
+	// Log a stringified version of the graph
+	console.log(JSON.stringify(graph.adjacencyList));
 };
 
 const parseLineString = feature => {
@@ -98,8 +128,15 @@ const createNodesFromLineString = lineCoordinates => {
 			coordinates: lineCoordinates,
 			connections: []
 		};
+
+		// Construct the string that will be entered in the svg
+		node.nodeSVGString = `<circle class="node" id="node-${i}" ${
+			node.name ? `data-name="${node.name}"` : ""
+		} cx="${node.coordinates[0]}" cy="${node.coordinates[1]}" r="10"/>`;
+
 		graph.addNode(Object.keys(graph.adjacencyList.nodes).length, node);
 	}
+
 	// Return the index of the node created, or broke the loop
 	return i;
 };
