@@ -115,14 +115,14 @@ export const scaleNodes = () => {
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("map-svg")
 		.getElementById("Nodes").children) {
-		node.setAttribute("r", viewBox.width / 100);
-		node.style.strokeWidth = viewBox.width / 1000;
+		node.setAttribute("r", viewBox.width / 250);
+		node.style.strokeWidth = viewBox.width / 2500;
 	}
 	for (const node of document
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("map-svg")
 		.getElementById("RestNodes").children) {
-		node.setAttribute("r", viewBox.width / 100);
-		node.style.strokeWidth = viewBox.width / 1000;
+		node.setAttribute("r", viewBox.width / 250);
+		node.style.strokeWidth = viewBox.width / 2500;
 	}
 };
