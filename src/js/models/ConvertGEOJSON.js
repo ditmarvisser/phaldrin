@@ -29,7 +29,7 @@ export const convertGEOJSON = () => {
 	console.log(`
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
 			<svg xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1920 1080" id="map-svg">
+			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="-120000 -200000 520000 300000" id="map-svg">
 			<title>nildrohainmap_colour_elements</title>
 			<g id="Layer_1" data-name="Layer 1">
 			<image width="1920" height="1080" xlink:href="nildrohainmap_colour.jpg"/>
