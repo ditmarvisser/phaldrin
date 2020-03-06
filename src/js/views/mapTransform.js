@@ -14,7 +14,7 @@ export const mapTransform = () => {
 
 		svg.addEventListener("pointerdown", onPointerDown); // Pointer is pressed
 		svg.addEventListener("pointerup", onPointerUp); // Releasing the pointer
-		svg.addEventListener("pointerleave", onPointerUp); // Pointer gets out of the SVG area
+		// svg.addEventListener("pointerleave", onPointerUp); // Pointer gets out of the SVG area
 		svg.addEventListener("pointermove", onPointerMove); // Pointer is moving
 		svg.addEventListener("wheel", onScroll);
 
