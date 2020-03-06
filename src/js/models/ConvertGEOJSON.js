@@ -57,6 +57,20 @@ const parseLineString = feature => {
 		SVGdPath,
 		edge;
 
+	// Calculate the edge weight
+	for (let i = 0; i < feature.geometry.coordinates.length - 1; i++) {
+		edgeWeight += Math.hypot(
+			Math.abs(
+				feature.geometry.coordinates[i][0] -
+					feature.geometry.coordinates[i + 1][0]
+			),
+			Math.abs(
+				feature.geometry.coordinates[i][1] -
+					feature.geometry.coordinates[i + 1][1]
+			)
+		);
+	}
+
 	// Get the starting coordinate
 	edgeStartCoordinate = feature.geometry.coordinates[0];
 
@@ -81,20 +95,6 @@ const parseLineString = feature => {
 	// Get the start and end node by comparing the coordinates
 	edgeStartNode = createNodesFromLineString(edgeStartCoordinate);
 	edgeEndNode = createNodesFromLineString(edgeEndCoordinate);
-
-	// Calculate the edge weight
-	for (let i = 0; i < feature.geometry.coordinates.length - 1; i++) {
-		edgeWeight += Math.hypot(
-			Math.abs(
-				feature.geometry.coordinates[i][0] -
-					feature.geometry.coordinates[i + 1][0]
-			),
-			Math.abs(
-				feature.geometry.coordinates[i][1] -
-					feature.geometry.coordinates[i + 1][1]
-			)
-		);
-	}
 
 	// Initiate the edge object
 	edge = {
