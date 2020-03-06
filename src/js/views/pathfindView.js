@@ -1,16 +1,16 @@
 import data from "../models/data";
-import * as mapTransform from "./mapTransform"
+import * as mapTransform from "./mapTransform";
 
 export const displayActiveNode = (node, position) => {
 	node.path[0].classList.toggle("nodeActive");
 	if (position === "start") {
-		document.getElementById("starting-point-name").innerHTML = `${
-			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
-		}`;
+		document.getElementById(
+			"starting-point-name"
+		).innerHTML = `${node.path[0].attributes.id.nodeValue.substring(5)}`;
 	} else if (position === "target") {
-		document.getElementById("target-point-name").innerHTML = `${
-			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
-		}`;
+		document.getElementById(
+			"target-point-name"
+		).innerHTML = `${node.path[0].attributes.id.nodeValue.substring(5)}`;
 	}
 };
 
@@ -30,18 +30,25 @@ export const displayPath = completedPath => {
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("Edges");
 	let traveledDistance = 0;
-	completedPath.forEach(e => {
-		svgRoads.children[e[1]].classList.add("edgeActive");
-		traveledDistance += data.edges[e[1]].edgeWeight;
+	// console.log(svgRoads.children);
+
+	completedPath.forEach(traveledRoad => {
+		for (let i = 0; i < svgRoads.children.length; i++) {
+			if (svgRoads.children[i].id.substring(5) == traveledRoad[1]) {
+				svgRoads.children[i].classList.add("edgeActive");
+				break;
+			}
+		}
+		traveledDistance += data.edges[traveledRoad[1]].edgeWeight;
 	});
 
 	// console.log(data);
 
 	document.getElementById("traveled-time-distance").innerHTML = `${Math.round(
-		traveledDistance / 6
-	)} miles (${Math.round((traveledDistance / 6) * 1.609)} kilometers)`;
+		traveledDistance / 1000 / 1.609
+	)} miles (${Math.round(traveledDistance) / 1000} kilometers)`;
 	document.getElementById("traveled-time-time").innerHTML = `${Math.round(
-		(traveledDistance / 6 / 24) * 10
+		(traveledDistance / 1000 / 1.609 / 24) * 10
 	) / 10} days`;
 };
 
@@ -78,8 +85,8 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		}
 
 		// add resting spots every x distance
-		while (edgeWeight - traveledDistance > 144) {
-			traveledDistance += 144;
+		while (edgeWeight - traveledDistance > 144000 / 1.609) {
+			traveledDistance += 144000 / 1.609;
 			if (edgeDirection === "regular") {
 				svgPoint = svg
 					.getElementById("Edges")
@@ -106,7 +113,7 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		// carrying over any residual distance
 		residualWeight = edgeWeight - traveledDistance;
 	});
-	mapTransform.scaleNodes()
+	mapTransform.scaleNodes();
 };
 
 export const clearDisplayedRestingSpots = () => {
