@@ -28,11 +28,12 @@ export const convertGEOJSON = () => {
 	console.log(`
 			<?xml-stylesheet type="text/css" href="../css/svg.css" ?>
 			<svg xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="-120000 -200000 520000 300000" id="map-svg">
+			xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="-120000 -75000 520000 300000" id="map-svg">
 			<title>nildrohainmap_colour_elements</title>
 			<g id="Layer_1" data-name="Layer 1"> 
 			<image width="518953.8838352524224" height="291911.5596573294876" x="-116595.8971" y="-73593.4179" xlink:href="nildrohainmap_colour.jpg"/>
 			<image width="2013.66866685003446592" height="2128.23764973059489568" x="-50030.166193" y="64691.489913" xlink:href="aequor.png"/>
+			<image width="1089.5104513363612484" height="652.4790375024391206" x="-70738.5200858080806242" y="-31952.7801656043555603" xlink:href="TabulaRasa.png"/>
 			</g>
 			<g id="Edges">
 			${edgeSVGArray.join("")}
