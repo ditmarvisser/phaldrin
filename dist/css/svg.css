@@ -19,9 +19,18 @@
 	vector-effect: non-scaling-stroke;
 }
 
-.badland {
+.badlands {
 	stroke: red;
 	stroke-dasharray: 5;
+}
+
+.alley {
+	stroke: black;
+	stroke-dasharray: 10;
+}
+
+.airship {
+	stroke: orange;
 }
 
 .edgeActive {
