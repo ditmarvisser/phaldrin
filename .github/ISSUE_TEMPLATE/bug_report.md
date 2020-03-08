@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Report a bug for this project
+title: "[BUG]"
+labels: bug
+assignees: ditmarvisser
+
+---
+
 <!--- Provide a general summary of the issue in the Title above -->
 
 ## Description
