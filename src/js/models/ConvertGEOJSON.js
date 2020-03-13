@@ -34,6 +34,7 @@ export const convertGEOJSON = () => {
 			<image width="518953.8838352524224" height="291911.5596573294876" x="-116595.8971" y="-73593.4179" xlink:href="nildrohainmap_colour.jpg"/>
 			<image width="2013.66866685003446592" height="2128.23764973059489568" x="-50030.166193" y="64691.489913" xlink:href="aequor.png"/>
 			<image width="1089.5104513363612484" height="652.4790375024391206" x="-70738.5200858080806242" y="-31952.7801656043555603" xlink:href="TabulaRasa.png"/>
+			<image width="1435.423670122944" height="1138.023518242937" x="12540.09222039974" y="100930.0152016375" xlink:href="graymoor.png"/>
 			</g>
 			<g id="Edges">
 			${edgeSVGArray.join("")}
