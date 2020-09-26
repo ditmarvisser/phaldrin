@@ -1,14 +1,16 @@
 import data from "../models/data";
 
 export const displayActiveNode = (node, position) => {
-	node.path[0].classList.toggle("nodeActive");
+	document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById(`node-${node}`).classList.toggle("nodeActive");
 	if (position === "start") {
 		document.getElementById("starting-point-name").innerHTML = `${
-			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
+			data.nodes[node].name
 		}`;
 	} else if (position === "target") {
 		document.getElementById("target-point-name").innerHTML = `${
-			data.nodes[node.path[0].attributes.id.nodeValue.substring(5)].name
+			data.nodes[node].name
 		}`;
 	}
 };
