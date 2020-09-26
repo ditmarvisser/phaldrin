@@ -1,13 +1,13 @@
 import Pathfind from "./models/Pathfind";
 import * as pathfindView from "./views/pathfindView";
-import * as SVGConvert from "./models/SVGConvert";
 import * as mapTransform from "./views/mapTransform";
+import * as ConvertGEOJSON from "./models/ConvertGEOJSON";
 
 const state = {};
 
 // When the user click the super secret dev button log a new data.json and data.svg
 document.getElementById("data-download").addEventListener("click", function() {
-	SVGConvert.convertSVG();
+	ConvertGEOJSON.convertGEOJSON();
 });
 
 /**
@@ -15,7 +15,6 @@ document.getElementById("data-download").addEventListener("click", function() {
  */
 
 let pathfinderNodes = [];
-let svg;
 
 export const controlPathfind = async selectedNode => {
 	pathfinderNodes.push(

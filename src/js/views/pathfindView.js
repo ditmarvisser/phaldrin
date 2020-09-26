@@ -1,17 +1,14 @@
 import data from "../models/data";
+import * as mapTransform from "./mapTransform";
 
 export const displayActiveNode = (node, position) => {
 	document
 		.getElementById("mapSVG")
 		.contentDocument.getElementById(`node-${node}`).classList.toggle("nodeActive");
 	if (position === "start") {
-		document.getElementById("starting-point-name").innerHTML = `${
-			data.nodes[node].name
-		}`;
+		document.getElementById("starting-point-name").innerHTML = node;
 	} else if (position === "target") {
-		document.getElementById("target-point-name").innerHTML = `${
-			data.nodes[node].name
-		}`;
+		document.getElementById("target-point-name").innerHTML = node;
 	}
 };
 
@@ -31,18 +28,23 @@ export const displayPath = completedPath => {
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("Edges");
 	let traveledDistance = 0;
-	completedPath.forEach(e => {
-		svgRoads.children[e[1]].classList.add("edgeActive");
-		traveledDistance += data.edges[e[1]].edgeWeight;
+	// console.log(svgRoads.children);
+
+	completedPath.forEach(traveledRoad => {
+		for (let i = 0; i < svgRoads.children.length; i++) {
+			if (svgRoads.children[i].id.substring(5) == traveledRoad[1]) {
+				svgRoads.children[i].classList.add("edgeActive");
+				break;
+			}
+		}
+		traveledDistance += data.edges[traveledRoad[1]].edgeWeight;
 	});
 
-	// console.log(data);
-
 	document.getElementById("traveled-time-distance").innerHTML = `${Math.round(
-		traveledDistance / 6
-	)} miles (${Math.round((traveledDistance / 6) * 1.609)} kilometers)`;
+		traveledDistance / 1000 / 1.609
+	)} miles (${Math.round(traveledDistance) / 1000} kilometers)`;
 	document.getElementById("traveled-time-time").innerHTML = `${Math.round(
-		(traveledDistance / 6 / 24) * 10
+		(traveledDistance / 1000 / 1.609 / 24) * 10
 	) / 10} days`;
 };
 
@@ -59,7 +61,14 @@ export const clearDisplayedPath = () => {
 
 export const displayRestingSpots = (completedPath, startingNode) => {
 	const svg = document.getElementById("mapSVG").contentDocument;
-	let edge, edgeDirection, edgeWeight, traveledDistance, svgPoint, newElement;
+	let edge,
+		edgeSVGposition,
+		edgeDirection,
+		edgeWeight,
+		traveledDistance,
+		svgPoint,
+		newElement,
+		distanceOnEdge;
 	let edgeStartingNode = startingNode;
 	let residualWeight = 0;
 
@@ -68,6 +77,16 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		edge = data.edges[e[1]];
 		edgeWeight = edge.edgeWeight;
 		traveledDistance = 0 - residualWeight;
+
+		// Compute the position of the edge in the SVG array
+		for (let i = 0; i < svg.getElementById("Edges").children.length; i++) {
+			if (svg.getElementById("Edges").children[i].id.substring(5) == e[1]) {
+					console.log(svg.getElementById("Edges").children[i]);
+					edgeSVGposition = i
+					break
+				}
+			}
+		
 
 		// Take the path and compute if the individual paths are reversed or not
 		if (edge.edgeStartNode == edgeStartingNode) {
@@ -79,19 +98,17 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		}
 
 		// add resting spots every x distance
-		while (edgeWeight - traveledDistance > 144) {
-			traveledDistance += 144;
+		while (edgeWeight - traveledDistance > 24 * 1609) {
+			traveledDistance += 24 * 1609;
 			if (edgeDirection === "regular") {
-				svgPoint = svg
-					.getElementById("Edges")
-					.children[e[1]].getPointAtLength(traveledDistance);
+				distanceOnEdge = traveledDistance;
 			} else if (edgeDirection === "reversed") {
-				svgPoint = svg
-					.getElementById("Edges")
-					.children[e[1]].getPointAtLength(
-						edgeWeight - traveledDistance
-					);
+				distanceOnEdge = edgeWeight - traveledDistance;
 			}
+			svgPoint = svg
+				.getElementById("Edges")
+				.children[edgeSVGposition].getPointAtLength(distanceOnEdge);
+
 			newElement = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"circle"
@@ -107,6 +124,7 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		// carrying over any residual distance
 		residualWeight = edgeWeight - traveledDistance;
 	});
+	mapTransform.scaleNodes();
 };
 
 export const clearDisplayedRestingSpots = () => {

@@ -28,13 +28,16 @@ export default class pathfinder {
 			shortestConnection[node] = [null, null];
 		}
 
+		// debugger;
 		// as long as there is something to visit
 		while (queue.values.length) {
 			topPriorityNode = queue.dequeue().node;
 			// If the top priority node is the target node, build up a path to return
 			if (topPriorityNode == targetNode) {
 				while (shortestConnection[topPriorityNode][0]) {
-					this.traveledPath.unshift(shortestConnection[topPriorityNode]);
+					this.traveledPath.unshift(
+						shortestConnection[topPriorityNode]
+					);
 					topPriorityNode = shortestConnection[topPriorityNode][0];
 				}
 				break;
@@ -49,7 +52,7 @@ export default class pathfinder {
 
 					if (
 						document.getElementById("badlands-checkbox").checked ||
-						data.edges[nextNode.edge].edgeType != "badland"
+						data.edges[nextNode.edge].edgeType != "badlands"
 					) {
 						//calculate new distance to neighboring node
 						let coordinates = data.nodes[nextNode.node].coordinates;
