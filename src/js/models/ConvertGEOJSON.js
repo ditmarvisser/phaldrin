@@ -5,7 +5,7 @@ import WeightedGraph from "./WeightedGraph";
 let graph = new WeightedGraph();
 
 export const convertGEOJSON = () => {
-	console.log(data_GEOJSON);
+	// console.log(data_GEOJSON);
 
 	// Loop over all line features in the GEOJSON
 	data_GEOJSON.features.forEach(feature => {
@@ -14,12 +14,7 @@ export const convertGEOJSON = () => {
 		}
 	});
 
-	// Create an array of all the node and edge svgPaths, join them in a string, and log the string
-	let node,
-		nodesSVGArray = [];
-	for (node in graph.adjacencyList.nodes) {
-		nodesSVGArray.push(graph.adjacencyList.nodes[node].nodeSVGString);
-	}
+	// Create an array of all edge svgPaths, join them in a string, and log the string
 	let edge,
 		edgeSVGArray = [];
 	for (edge in graph.adjacencyList.edges) {
@@ -39,9 +34,7 @@ export const convertGEOJSON = () => {
 			<g id="Edges">
 			${edgeSVGArray.join("")}
 			</g>
-			<g id="Nodes">
-			${nodesSVGArray.join("")}
-			</g>
+			<g id="Nodes"></g>
 			<g id="RestNodes"></g>
 			</svg>
 			`);
@@ -138,11 +131,6 @@ const createNodesFromLineString = lineCoordinates => {
 			coordinates: lineCoordinates,
 			connections: []
 		};
-
-		// Construct the string that will be entered in the svg
-		node.nodeSVGString = `<circle class="node" id="node-${i}" ${
-			node.name ? `data-name="${node.name}"` : ""
-		} cx="${node.coordinates[0]}" cy="${node.coordinates[1]}" r="10"/>`;
 
 		graph.addNode(Object.keys(graph.adjacencyList.nodes).length, node);
 	}

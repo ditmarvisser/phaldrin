@@ -12,7 +12,7 @@ export const mapTransform = () => {
 
 		// We save the original values from the viewBox
 		viewBox = svg.viewBox.baseVal;
-		console.log(viewBox);
+		// console.log(viewBox);
 
 		svg.addEventListener("pointerdown", onPointerDown); // Pointer is pressed
 		svg.addEventListener("pointerup", onPointerUp); // Releasing the pointer

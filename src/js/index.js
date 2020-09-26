@@ -23,9 +23,8 @@ export const controlPathfind = async selectedNode => {
 	// console.log(pathfinderNodes);
 	if (pathfinderNodes.length === 1) {
 		// Clear the UI
-		pathfindView.clearActiveNodes();
+		pathfindView.clearNodes();
 		pathfindView.clearDisplayedPath();
-		pathfindView.clearDisplayedRestingSpots();
 		// Display the chosen node on the page
 		pathfindView.displayActiveNode(selectedNode, "start");
 	} else if (pathfinderNodes.length === 2) {
