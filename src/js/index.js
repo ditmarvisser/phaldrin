@@ -19,8 +19,9 @@ let svg;
 
 export const controlPathfind = async selectedNode => {
 	pathfinderNodes.push(
-		parseInt(selectedNode.path[0].attributes.id.nodeValue.substring(5))
+		parseInt(selectedNode)
 	);
+	// console.log(pathfinderNodes);
 	if (pathfinderNodes.length === 1) {
 		// Clear the UI
 		pathfindView.clearActiveNodes();
