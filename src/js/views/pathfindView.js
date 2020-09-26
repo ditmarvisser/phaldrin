@@ -2,15 +2,13 @@ import data from "../models/data";
 import * as mapTransform from "./mapTransform";
 
 export const displayActiveNode = (node, position) => {
-	node.path[0].classList.toggle("nodeActive");
+	document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById(`node-${node}`).classList.toggle("nodeActive");
 	if (position === "start") {
-		document.getElementById(
-			"starting-point-name"
-		).innerHTML = `${node.path[0].attributes.id.nodeValue.substring(5)}`;
+		document.getElementById("starting-point-name").innerHTML = node;
 	} else if (position === "target") {
-		document.getElementById(
-			"target-point-name"
-		).innerHTML = `${node.path[0].attributes.id.nodeValue.substring(5)}`;
+		document.getElementById("target-point-name").innerHTML = node;
 	}
 };
 

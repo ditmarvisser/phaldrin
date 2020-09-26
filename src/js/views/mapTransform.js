@@ -1,4 +1,6 @@
 import * as index from "../index";
+import data from "../models/data";
+
 
 let svg, viewBox;
 
@@ -82,8 +84,22 @@ const onPointerMove = event => {
 // Function called by the event listeners when user stops pressing/touching
 const onPointerUp = event => {
 	// If the pointer hasn't moved, add the node to pathfinding
-	if (!hasMoved && event.path[1].attributes.id.nodeValue === "Nodes") {
-		index.controlPathfind(event);
+	
+	if (!hasMoved) {
+		let clickPoint = getPointFromEvent(event);
+		let closestNode = [];
+		for (const key in data.nodes) {
+			let nodeCoordinates = data.nodes[key].coordinates;
+			let distanceToNode = Math.hypot(Math.abs(clickPoint.x - nodeCoordinates[0]), Math.abs(clickPoint.y - nodeCoordinates[1]));
+			if (!closestNode[1]) {
+				closestNode[0] = key;
+				closestNode[1] = distanceToNode;
+			} else if (closestNode[1] > distanceToNode) {
+				closestNode[0] = key;
+				closestNode[1] = distanceToNode;
+			}
+		}
+		index.controlPathfind(closestNode[0]);
 	}
 	// The pointer is no longer considered as down
 	isPointerDown = false;
