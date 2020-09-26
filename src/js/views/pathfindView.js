@@ -2,23 +2,51 @@ import data from "../models/data";
 import * as mapTransform from "./mapTransform";
 
 export const displayActiveNode = (node, position) => {
-	document
-		.getElementById("mapSVG")
-		.contentDocument.getElementById(`node-${node}`).classList.toggle("nodeActive");
+	const svg = document.getElementById("mapSVG").contentDocument;
+	let newElement, nodeCoordinates;
+	
+	nodeCoordinates = data.nodes[node].coordinates;
+
+	newElement = document.createElementNS(
+		"http://www.w3.org/2000/svg",
+		"circle"
+		);
+	newElement.setAttributeNS(null, "class", "Node");
+	newElement.setAttributeNS(null, "cx", nodeCoordinates[0]);
+	newElement.setAttributeNS(null, "cy", nodeCoordinates[1]);
+	newElement.setAttributeNS(null, "r", 10);
+	svg.documentElement
+		.getElementById("Nodes")
+		.appendChild(newElement);
+	
+
+	
 	if (position === "start") {
 		document.getElementById("starting-point-name").innerHTML = node;
 	} else if (position === "target") {
 		document.getElementById("target-point-name").innerHTML = node;
 	}
+
+	mapTransform.scaleNodes();
 };
 
-export const clearActiveNodes = () => {
+export const clearNodes = () => {
+	// Delete all spots
 	const svgNodes = document
 		.getElementById("mapSVG")
 		.contentDocument.getElementById("Nodes");
-	Array.prototype.forEach.call(svgNodes.children, function(e) {
-		e.classList.remove("nodeActive");
-	});
+	while (svgNodes.firstChild) {
+		svgNodes.removeChild(svgNodes.firstChild);
+	}
+
+	// Delete all resting spots
+	const svgRestNodes = document
+		.getElementById("mapSVG")
+		.contentDocument.getElementById("RestNodes");
+	while (svgRestNodes.firstChild) {
+		svgRestNodes.removeChild(svgRestNodes.firstChild);
+	}
+	
 	document.getElementById("starting-point-name").innerHTML = "...";
 	document.getElementById("target-point-name").innerHTML = "...";
 };
@@ -81,7 +109,7 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		// Compute the position of the edge in the SVG array
 		for (let i = 0; i < svg.getElementById("Edges").children.length; i++) {
 			if (svg.getElementById("Edges").children[i].id.substring(5) == e[1]) {
-					console.log(svg.getElementById("Edges").children[i]);
+					// console.log(svg.getElementById("Edges").children[i]);
 					edgeSVGposition = i
 					break
 				}
@@ -125,14 +153,4 @@ export const displayRestingSpots = (completedPath, startingNode) => {
 		residualWeight = edgeWeight - traveledDistance;
 	});
 	mapTransform.scaleNodes();
-};
-
-export const clearDisplayedRestingSpots = () => {
-	// Delete all resting spots
-	const svgRestNodes = document
-		.getElementById("mapSVG")
-		.contentDocument.getElementById("RestNodes");
-	while (svgRestNodes.firstChild) {
-		svgRestNodes.removeChild(svgRestNodes.firstChild);
-	}
 };
