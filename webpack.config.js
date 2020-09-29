@@ -5,8 +5,9 @@ module.exports = {
 	entry: ["./src/js/index.ts"],
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: "js/bundle.js",
+		filename: "js/bundle.js"
 	},
+	devtool: 'inline-source-map',
 	devServer: {
 		contentBase: "./dist",
 	},
@@ -26,18 +27,14 @@ module.exports = {
 				},
 			},
 			{
-				test: /\.(t|j)sx?$/,
+				test: /\.ts$/,
 				use: {
-					loader: 'awesome-typescript-loader'
-				} 
-			},
-			{
-				enforce: 'pre',
-				test: /\.js$/,
-				use: {
-					loader: 'source-map-loader'
+					loader: "ts-loader",
 				},
 			},
 		],
 	},
+	resolve: {
+		extensions: ['.ts', '.js']
+	}
 };
