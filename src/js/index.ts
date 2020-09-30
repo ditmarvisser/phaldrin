@@ -3,10 +3,10 @@ import * as pathfindView from "./views/pathfindView";
 import * as mapTransform from "./views/mapTransform";
 import * as ConvertGEOJSON from "./models/ConvertGEOJSON";
 
-const state = {};
+const state = { pathfind: null };
 
 // When the user click the super secret dev button log a new data.json and data.svg
-document.getElementById("data-download").addEventListener("click", function() {
+document.getElementById("data-download")!.addEventListener("click", function () {
 	ConvertGEOJSON.convertGEOJSON();
 });
 
@@ -14,12 +14,10 @@ document.getElementById("data-download").addEventListener("click", function() {
  * PATHFINDER CONTROLLER
  */
 
-let pathfinderNodes = [];
+let pathfinderNodes: number[] = [];
 
-export const controlPathfind = async selectedNode => {
-	pathfinderNodes.push(
-		parseInt(selectedNode)
-	);
+export const controlPathfind = async (selectedNode: number) => {
+	pathfinderNodes.push(selectedNode);
 	// console.log(pathfinderNodes);
 	if (pathfinderNodes.length === 1) {
 		// Clear the UI
@@ -42,7 +40,10 @@ export const controlPathfind = async selectedNode => {
 		}
 
 		// Display the resting spots
-		pathfindView.displayRestingSpots(state.pathfind.traveledPath, pathfinderNodes[0]);
+		pathfindView.displayRestingSpots(
+			state.pathfind.traveledPath,
+			pathfinderNodes[0]
+		);
 
 		// Clear the pathfinderNodes list
 		pathfinderNodes.length = 0;
