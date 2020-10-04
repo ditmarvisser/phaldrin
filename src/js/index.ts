@@ -3,7 +3,7 @@ import * as pathfindView from "./views/pathfindView";
 import * as mapTransform from "./views/mapTransform";
 import * as ConvertGEOJSON from "./models/ConvertGEOJSON";
 
-const state = { pathfind: null };
+const state = {} as any;
 
 // When the user click the super secret dev button log a new data.json and data.svg
 document.getElementById("data-download")!.addEventListener("click", function () {
