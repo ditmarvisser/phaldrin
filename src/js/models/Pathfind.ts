@@ -1,31 +1,32 @@
-import data from "./data";
+import data from "./data.json";
 import PriorityQueue from "./PriorityQueue";
+import { geoData } from "../base"
+
+let geoData: geoData = data;
 
 export default class pathfinder {
-	constructor() {
-		this.traveledPath = [];
-	}
+	traveledPath: [string, string][] = [];
 
-	aStar(startingNode, targetNode) {
+	aStar(startingNode: number, targetNode: number) {
 		// Start a timer for performance
 		let t0 = performance.now();
 
 		// Initiate a new priority queue, an empty distances object, and an empty shortest connections object
 		const queue = new PriorityQueue();
-		const distancesFromStartingNode = {};
-		const shortestConnection = {};
-		let topPriorityNode;
+		const distancesFromStartingNode: Record<string, number> = {};
+		const shortestConnection: Record<string, [string, string]> = {};
+		let topPriorityNode: string;
 
 		// Build the initial state
 		for (let node in data.nodes) {
-			if (node == startingNode) {
+			if (parseInt(node) == startingNode) {
 				distancesFromStartingNode[node] = 0;
 				queue.enqueue(node, 0);
 			} else {
 				distancesFromStartingNode[node] = Infinity;
 				queue.enqueue(node, Infinity);
 			}
-			shortestConnection[node] = [null, null];
+			shortestConnection[node] = ["", ""];
 		}
 
 		// debugger;
@@ -33,7 +34,7 @@ export default class pathfinder {
 		while (queue.values.length) {
 			topPriorityNode = queue.dequeue().node;
 			// If the top priority node is the target node, build up a path to return
-			if (topPriorityNode == targetNode) {
+			if (parseInt(topPriorityNode) == targetNode) {
 				while (shortestConnection[topPriorityNode][0]) {
 					this.traveledPath.unshift(
 						shortestConnection[topPriorityNode]
@@ -45,19 +46,19 @@ export default class pathfinder {
 				topPriorityNode ||
 				distancesFromStartingNode[topPriorityNode] !== Infinity
 			) {
-				for (let neighbor in data.nodes[topPriorityNode].connections) {
+				for (let neighbor in geoData.nodes[topPriorityNode].connections) {
 					//find neighboring node
 					let nextNode =
-						data.nodes[topPriorityNode].connections[neighbor];
+						geoData.nodes[topPriorityNode].connections[neighbor];
 
 					if (
-						document.getElementById("badlands-checkbox").checked ||
-						data.edges[nextNode.edge].edgeType != "badlands"
+						(<HTMLInputElement>document.getElementById("badlands-checkbox")).checked ||
+						geoData.edges[nextNode.edge].edgeType != "badlands"
 					) {
 						//calculate new distance to neighboring node
-						let coordinates = data.nodes[nextNode.node].coordinates;
+						let coordinates = geoData.nodes[nextNode.node].coordinates;
 						let targetCoordinates =
-							data.nodes[targetNode].coordinates;
+							geoData.nodes[targetNode].coordinates;
 						let xDistance = coordinates[0] - targetCoordinates[0];
 						let yDistance = coordinates[1] - targetCoordinates[1];
 						let euclidianDistance = Math.sqrt(
@@ -65,7 +66,7 @@ export default class pathfinder {
 						);
 						let candidate =
 							distancesFromStartingNode[topPriorityNode] +
-							data.edges[nextNode.edge].edgeWeight +
+							geoData.edges[nextNode.edge].edgeWeight +
 							euclidianDistance;
 						let nextNeighbor = nextNode.node;
 
@@ -77,7 +78,7 @@ export default class pathfinder {
 							//updating shortest connection - How we got to neighbor
 							shortestConnection[nextNeighbor] = [
 								topPriorityNode,
-								nextNode.edge
+								nextNode.edge.toString()
 							];
 							//enqueue in priority queue with new priority
 							queue.enqueue(nextNeighbor, candidate);
