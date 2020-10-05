@@ -17,7 +17,7 @@ interface Connection {
 	edge: number;
 }
 
-interface EdgeInterface {
+export interface EdgeInterface {
 	"edgeName": string | null;
 	"edgeWeight": number;
 	"edgeStartNode": number;
