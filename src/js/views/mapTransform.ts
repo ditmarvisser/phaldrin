@@ -1,14 +1,15 @@
 import * as index from "../index";
-import data from "../models/data";
+import data from "../models/data.json";
+import * as geoDataInterface from "../base";
 
-
-let svg, viewBox;
+let geoData: geoDataInterface.geoData = data;
+let svg: SVGSVGElement, viewBox: DOMRect;
 
 export const mapTransform = () => {
-	window.onload = function() {
-		svg = document
-			.getElementById("mapSVG")
-			.contentDocument.getElementById("map-svg");
+	window.onload = function () {
+		svg = (<HTMLObjectElement>(
+			document.getElementById("mapSVG")!
+		)).contentDocument!.getElementById("map-svg")!;
 
 		// We save the original values from the viewBox
 		viewBox = svg.viewBox.baseVal;
@@ -20,23 +21,19 @@ export const mapTransform = () => {
 		svg.addEventListener("pointermove", onPointerMove); // Pointer is moving
 		svg.addEventListener("wheel", onScroll);
 
-		scaleNodes()
+		scaleNodes();
 	};
 };
 
 // This function returns an object with X & Y values from the pointer event
-const getPointFromEvent = event => {
+const getPointFromEvent = (event: PointerEvent | WheelEvent) => {
 	let point = svg.createSVGPoint();
 	// If event is triggered by a touch event, we get the position of the first finger
-	if (event.targetTouches) {
-		point.x = event.targetTouches[0].clientX;
-		point.y = event.targetTouches[0].clientY;
-	} else {
-		point.x = event.clientX;
-		point.y = event.clientY;
-	}
 
-	var invertedSVGMatrix = svg.getScreenCTM().inverse();
+	point.x = event.clientX;
+	point.y = event.clientY;
+
+	var invertedSVGMatrix = svg.getScreenCTM()!.inverse();
 
 	return point.matrixTransform(invertedSVGMatrix);
 };
@@ -48,11 +45,11 @@ let hasMoved = false;
 // This variable will contain the original coordinates when the user start pressing the mouse or touching the screen
 let pointerOrigin = {
 	x: 0,
-	y: 0
+	y: 0,
 };
 
 // Function called by the event listeners when user start pressing/touching
-const onPointerDown = event => {
+const onPointerDown = (event: PointerEvent) => {
 	// controlPathfind.controlPathfind();
 	isPointerDown = true; // We set the pointer as down
 
@@ -61,7 +58,7 @@ const onPointerDown = event => {
 };
 
 // Function called by the event listeners when user start moving/dragging
-const onPointerMove = event => {
+const onPointerMove = (event: PointerEvent) => {
 	// Only run this function if the pointer is down
 	if (!isPointerDown) {
 		return;
@@ -82,20 +79,23 @@ const onPointerMove = event => {
 };
 
 // Function called by the event listeners when user stops pressing/touching
-const onPointerUp = event => {
+const onPointerUp = (event: PointerEvent) => {
 	// If the pointer hasn't moved, add the node to pathfinding
-	
+
 	if (!hasMoved) {
 		let clickPoint = getPointFromEvent(event);
-		let closestNode = [];
-		for (const key in data.nodes) {
-			let nodeCoordinates = data.nodes[key].coordinates;
-			let distanceToNode = Math.hypot(Math.abs(clickPoint.x - nodeCoordinates[0]), Math.abs(clickPoint.y - nodeCoordinates[1]));
+		let closestNode: number[] = [];
+		for (const key in geoData.nodes) {
+			let nodeCoordinates = geoData.nodes[key].coordinates;
+			let distanceToNode = Math.hypot(
+				Math.abs(clickPoint.x - nodeCoordinates[0]),
+				Math.abs(clickPoint.y - nodeCoordinates[1])
+			);
 			if (!closestNode[1]) {
-				closestNode[0] = key;
+				closestNode[0] = parseInt(key);
 				closestNode[1] = distanceToNode;
 			} else if (closestNode[1] > distanceToNode) {
-				closestNode[0] = key;
+				closestNode[0] = parseInt(key);
 				closestNode[1] = distanceToNode;
 			}
 		}
@@ -107,7 +107,7 @@ const onPointerUp = event => {
 };
 
 // Function called by the event listeners when user starts scrolling
-const onScroll = event => {
+const onScroll = (event: WheelEvent) => {
 	// We get the pointer position on click/touchdown so we can get the value once the user starts to zoom
 	pointerOrigin = getPointFromEvent(event);
 
@@ -127,18 +127,20 @@ const onScroll = event => {
 };
 
 export const scaleNodes = () => {
-	for (const node of document
-		.getElementById("mapSVG")
-		.contentDocument.getElementById("map-svg")
-		.getElementById("Nodes").children) {
-		node.setAttribute("r", viewBox.width / 250);
-		node.style.strokeWidth = viewBox.width / 2500;
+	for (const node of (<HTMLObjectElement>(
+		document.getElementById("mapSVG")!
+	)).contentDocument!.getElementById("Nodes")!.children) {
+		node.setAttribute("r", (viewBox.width / 250).toString());
+		(<HTMLElement>node).style.strokeWidth = (
+			viewBox.width / 2500
+		).toString();
 	}
-	for (const node of document
-		.getElementById("mapSVG")
-		.contentDocument.getElementById("map-svg")
-		.getElementById("RestNodes").children) {
-		node.setAttribute("r", viewBox.width / 250);
-		node.style.strokeWidth = viewBox.width / 2500;
+	for (const node of (<HTMLObjectElement>(
+		document.getElementById("mapSVG")!
+	)).contentDocument!.getElementById("RestNodes")!.children) {
+		node.setAttribute("r", (viewBox.width / 250).toString());
+		(<HTMLElement>node).style.strokeWidth = (
+			viewBox.width / 2500
+		).toString();
 	}
 };
